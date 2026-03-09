@@ -285,38 +285,71 @@ function go(id){
 let ttm;function toast(m,c='var(--accent)'){const t=document.getElementById('toast');t.textContent=m;t.style.color=c;t.classList.add('on');clearTimeout(ttm);ttm=setTimeout(()=>t.classList.remove('on'),3200);}
 
 // ═══════════════════════════════════
-// FACE MATCHING — Color Histogram
+// FACE MATCHING — Multi-feature robust
 // ═══════════════════════════════════
-const MATCH_THR=0.72;
-const BINS=32;
+const MATCH_THR = 0.42; // lowered for mobile lighting variance
+const BINS = 16; // fewer bins = more tolerant to lighting
 
-function getHist(ctx,x,y,w,h){
-  const d=ctx.getImageData(x,y,w,h).data;
-  const r=new Float32Array(BINS),g=new Float32Array(BINS),b=new Float32Array(BINS);
-  const step=Math.floor(256/BINS);let tot=0;
-  for(let i=0;i<d.length;i+=4){if(d[i+3]<10)continue;r[Math.floor(d[i]/step)]++;g[Math.floor(d[i+1]/step)]++;b[Math.floor(d[i+2]/step)]++;tot++;}
-  if(tot>0)for(let i=0;i<BINS;i++){r[i]/=tot;g[i]/=tot;b[i]/=tot;}
-  return{r,g,b};
+// Extract multiple features from face region
+function extractFeatures(ctx, x, y, w, h) {
+  const d = ctx.getImageData(x, y, w, h).data;
+  const rH=new Float32Array(BINS), gH=new Float32Array(BINS), bH=new Float32Array(BINS);
+  const step = Math.floor(256/BINS);
+  let rSum=0, gSum=0, bSum=0, tot=0;
+  for(let i=0;i<d.length;i+=4){
+    if(d[i+3]<10) continue;
+    rH[Math.floor(d[i]/step)]++;
+    gH[Math.floor(d[i+1]/step)]++;
+    bH[Math.floor(d[i+2]/step)]++;
+    rSum+=d[i]; gSum+=d[i+1]; bSum+=d[i+2];
+    tot++;
+  }
+  if(tot>0){
+    for(let i=0;i<BINS;i++){rH[i]/=tot;gH[i]/=tot;bH[i]/=tot;}
+    rSum/=tot; gSum/=tot; bSum/=tot;
+  }
+  // Skin tone ratio (r/g, r/b) — stable across lighting
+  const rgRatio = gSum>0 ? rSum/gSum : 1;
+  const rbRatio = bSum>0 ? rSum/bSum : 1;
+  // Normalized brightness
+  const brightness = (rSum+gSum+bSum)/3/255;
+  return {rH,gH,bH, rgRatio, rbRatio, brightness};
 }
 
+// Bhattacharyya histogram similarity
 function histSim(h1,h2){
   let s=0;
-  for(const c of['r','g','b'])for(let i=0;i<BINS;i++)s+=Math.sqrt(h1[c][i]*h2[c][i]);
+  for(const c of['rH','gH','bH'])
+    for(let i=0;i<BINS;i++) s+=Math.sqrt((h1[c][i]||0)*(h2[c][i]||0));
   return s/BINS;
 }
 
-function snapHist(vid,cv){
-  const ctx=cv.getContext('2d');
-  ctx.save();ctx.scale(-1,1);ctx.drawImage(vid,-64,0,64,64);ctx.restore();
-  const cx=Math.floor(64*.2),cy=Math.floor(64*.1),cw=Math.floor(64*.6),ch=Math.floor(64*.7);
-  return getHist(ctx,cx,cy,cw,ch);
+// Skin ratio similarity (lighting-invariant)
+function ratioSim(f1,f2){
+  const rgDiff = Math.abs(f1.rgRatio-f2.rgRatio)/Math.max(f1.rgRatio,f2.rgRatio,0.01);
+  const rbDiff = Math.abs(f1.rbRatio-f2.rbRatio)/Math.max(f1.rbRatio,f2.rbRatio,0.01);
+  return 1 - Math.min((rgDiff+rbDiff)/2, 1);
 }
 
-function matchEmp(hist,emp){
-  if(!emp.hists||!emp.hists.length)return{ok:true,score:1};
-  let best=0;
-  for(const h of emp.hists){const s=histSim(hist,h);if(s>best)best=s;}
-  return{ok:best>=MATCH_THR,score:best};
+function snapFeatures(vid, cv){
+  const ctx=cv.getContext('2d');
+  ctx.save();ctx.scale(-1,1);ctx.drawImage(vid,-64,0,64,64);ctx.restore();
+  // Use center face region
+  const cx=12, cy=6, cw=40, ch=45;
+  return extractFeatures(ctx, cx, cy, cw, ch);
+}
+
+function matchEmp(feat, emp){
+  if(!emp.feats||!emp.feats.length) return {ok:true, score:1};
+  let bestScore=0;
+  for(const stored of emp.feats){
+    // Weighted combination: 60% histogram + 40% skin ratio
+    const hScore = histSim(feat, stored);
+    const rScore = ratioSim(feat, stored);
+    const combined = hScore*0.6 + rScore*0.4;
+    if(combined > bestScore) bestScore=combined;
+  }
+  return {ok: bestScore>=MATCH_THR, score: bestScore};
 }
 
 // ═══════════════════════════════════
@@ -381,7 +414,7 @@ function attAct(type){
   if(!curE)return;
   pendAct=type;
   stopAll();
-  if(!curE.hists||!curE.hists.length){
+  if(!curE.feats||!curE.feats.length){
     // No face data — just record
     recDirect(type);
     toast('⚠️ Намунаи чеҳра нест — бе скан қайд шуд','var(--orange)');
@@ -557,7 +590,7 @@ function doFaceMatch(){
   const scores=[];
   let done=0;
   function cap(){
-    const h=snapHist(vid,cv);
+    const h=snapFeatures(vid,cv);
     const r=matchEmp(h,curE);
     scores.push(r.score);
     done++;
@@ -677,12 +710,12 @@ function openRegCam(){
 
 function capFace(){
   const vid=document.getElementById('rv'),cv=document.getElementById('rc');
-  const hist=snapHist(vid,cv);
+  const feat=snapFeatures(vid,cv);
   const bigCv=document.createElement('canvas');bigCv.width=80;bigCv.height=80;
   const bctx=bigCv.getContext('2d');
   bctx.save();bctx.scale(-1,1);bctx.drawImage(vid,-80,0,80,80);bctx.restore();
   const previewUrl=bigCv.toDataURL('image/jpeg',.6);
-  regSmp.push({hist,previewUrl});
+  regSmp.push({feat,previewUrl});
   const img=document.createElement('img');img.className='thumb';img.src=previewUrl;
   document.getElementById('thmbs').appendChild(img);
   const sc=document.getElementById('sct');sc.style.display='block';
@@ -707,7 +740,7 @@ function saveEmp(){
   if(!fn||!lg||!pw){showRAl('⚠️ Ҳамаи майдонҳоро пур кунед!','al-e');return;}
   if(emps.find(e=>e.lg===lg)){showRAl('⚠️ Ин логин аллакай мавҷуд!','al-e');return;}
   if(regSmp.length<3){showRAl('⚠️ Ҳадди аққал 3 намунаи чеҳра лозим!','al-e');return;}
-  const emp={id:Date.now()+'',fn,lg,pw,rl,hists:regSmp.map(s=>s.hist),av:regSmp[Math.floor(regSmp.length/2)].previewUrl||null,sampleCount:regSmp.length,dt:new Date().toLocaleDateString('ru')};
+  const emp={id:Date.now()+'',fn,lg,pw,rl,feats:regSmp.map(s=>s.feat),av:regSmp[Math.floor(regSmp.length/2)].previewUrl||null,sampleCount:regSmp.length,dt:new Date().toLocaleDateString('ru')};
   emps.push(emp);localStorage.setItem('kde3',JSON.stringify(emps));
   showRAl('✅ '+fn+' бомуваффақият сабт шуд! ('+regSmp.length+' намуна)','al-ok');
   toast('✅ '+fn+' сабт шуд','var(--green)');
@@ -726,7 +759,7 @@ function saveEmp(){
 function renderEmpList(){
   const el=document.getElementById('emplist');
   if(!emps.length){el.innerHTML='<div style="color:var(--muted);text-align:center;padding:14px">Ҳанӯз корманд нест</div>';return;}
-  el.innerHTML=`<div class="tw"><table><thead><tr><th>Корманд</th><th>Логин</th><th>Вазифа</th><th>Чеҳра</th><th></th></tr></thead><tbody>${emps.map(e=>`<tr><td><div class="arow">${e.av?`<img class="av" src="${e.av}">`:`<div class="av0">👤</div>`} ${e.fn}</div></td><td style="color:var(--muted)">${e.lg}</td><td>${e.rl}</td><td>${e.hists?.length?`<span class="bdg bg">${e.hists.length}📷</span>`:`<span class="bdg bo">Нест</span>`}</td><td><button onclick="delEmp('${e.id}')" style="background:rgba(255,68,68,.1);color:var(--red);border:1px solid rgba(255,68,68,.3);border-radius:7px;padding:4px 7px;cursor:pointer;font-size:.72rem">🗑</button></td></tr>`).join('')}</tbody></table></div>`;
+  el.innerHTML=`<div class="tw"><table><thead><tr><th>Корманд</th><th>Логин</th><th>Вазифа</th><th>Чеҳра</th><th></th></tr></thead><tbody>${emps.map(e=>`<tr><td><div class="arow">${e.av?`<img class="av" src="${e.av}">`:`<div class="av0">👤</div>`} ${e.fn}</div></td><td style="color:var(--muted)">${e.lg}</td><td>${e.rl}</td><td>${e.feats?.length?`<span class="bdg bg">${e.feats.length}📷</span>`:`<span class="bdg bo">Нест</span>`}</td><td><button onclick="delEmp('${e.id}')" style="background:rgba(255,68,68,.1);color:var(--red);border:1px solid rgba(255,68,68,.3);border-radius:7px;padding:4px 7px;cursor:pointer;font-size:.72rem">🗑</button></td></tr>`).join('')}</tbody></table></div>`;
 }
 function delEmp(id){if(!confirm('Нест кунед?'))return;emps=emps.filter(e=>e.id!==id);localStorage.setItem('kde3',JSON.stringify(emps));renderEmpList();toast('🗑 Нест шуд','var(--red)');}
 
