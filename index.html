@@ -12,13 +12,19 @@
 html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'Noto Sans',sans-serif;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,201,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,201,255,0.04) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0;}
 .app{position:relative;z-index:1;}
+
+/* HEADER */
 header{background:linear-gradient(135deg,#08122a,#0d2050);border-bottom:1px solid var(--border);padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 20px rgba(0,0,0,.6);}
 .logo{font-family:'Exo 2',sans-serif;font-weight:900;font-size:1.05rem;color:var(--accent);}
 .logo b{color:var(--text);font-weight:300;}
 #htime{font-family:'Exo 2',sans-serif;font-size:.68rem;color:var(--muted);text-align:right;line-height:1.6;}
 #htime span{display:block;font-size:.88rem;color:var(--accent);font-weight:700;}
+
+/* PAGES */
 .page{display:none;}.page.active{display:block;animation:fu .3s ease;}
 @keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* MENU */
 .menu{min-height:calc(100vh - 56px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 16px;gap:22px;}
 .mh h1{font-family:'Exo 2',sans-serif;font-size:1.4rem;font-weight:900;text-align:center;background:linear-gradient(135deg,var(--accent),#7a6fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .mh p{color:var(--muted);font-size:.8rem;text-align:center;margin-top:4px;}
@@ -27,92 +33,123 @@ header{background:linear-gradient(135deg,#08122a,#0d2050);border-bottom:1px soli
 .mc:active{transform:scale(.95);}.mc .ic{font-size:1.8rem;margin-bottom:6px;}
 .mc h3{font-family:'Exo 2',sans-serif;font-size:.86rem;font-weight:700;}
 .mc p{font-size:.68rem;color:var(--muted);margin-top:3px;line-height:1.3;}.mc.w{grid-column:1/-1;}
+
+/* LAYOUT */
 .wrap{max-width:480px;margin:0 auto;padding:13px 13px 30px;}
 .back{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-size:.8rem;cursor:pointer;background:none;border:none;margin-bottom:13px;padding:4px 0;}
 .stitle{font-family:'Exo 2',sans-serif;font-size:1.15rem;font-weight:800;color:var(--accent);margin-bottom:13px;}
-.cd{background:linear-gradient(145deg,#0d1f3c,#0e1d38);border:1px solid var(--border);border-radius:15px;padding:13px;margin-bottom:11px;}
+.cd{background:linear-gradient(145deg,#0d1f3c,#0e1d38);border:1px solid var(--border);border-radius:15px;padding:14px;margin-bottom:11px;}
+
+/* INPUTS */
 label{display:block;font-size:.7rem;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px;}
 input[type=text],input[type=password]{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:11px 13px;color:var(--text);font-size:.92rem;outline:none;margin-bottom:10px;-webkit-appearance:none;font-family:'Noto Sans',sans-serif;}
 input:focus{border-color:var(--accent);}input::placeholder{color:var(--muted);}
+
+/* BUTTONS */
 .btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:12px 15px;border-radius:11px;font-family:'Exo 2',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;border:none;width:100%;-webkit-appearance:none;transition:all .15s;}
-.btn:active{transform:scale(.97);}.btn-p{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;}
+.btn:active{transform:scale(.97);}
+.btn-p{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;}
 .btn-ol{background:rgba(0,201,255,.08);color:var(--accent);border:1px solid rgba(0,201,255,.3);}
-.btn-sm{width:auto;padding:8px 12px;font-size:.78rem;}.btn:disabled{opacity:.35;pointer-events:none;}
+.btn-sm{width:auto;padding:8px 12px;font-size:.78rem;}
+.btn:disabled{opacity:.35;pointer-events:none;}
+
 /* CAMERA */
 .co{position:relative;width:100%;border-radius:13px;overflow:hidden;background:#000;aspect-ratio:4/3;border:2px solid var(--border);margin-bottom:10px;}
 video{width:100%;height:100%;object-fit:cover;display:block;transform:scaleX(-1);}
-.cr{position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);width:150px;height:150px;border-radius:50%;border:2px solid var(--accent);box-shadow:0 0 0 2000px rgba(0,0,0,.45),0 0 25px var(--accent);pointer-events:none;transition:border-color .3s,box-shadow .3s;}
-.cr.ok{border-color:var(--green);box-shadow:0 0 0 2000px rgba(0,0,0,.45),0 0 25px var(--green);}
-.cr.fail{border-color:var(--red);box-shadow:0 0 0 2000px rgba(0,0,0,.45),0 0 25px var(--red);}
-.sl{position:absolute;left:50%;transform:translateX(-50%);width:130px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);pointer-events:none;animation:sa 2s linear infinite;}
-@keyframes sa{0%{top:calc(50% - 70px);opacity:1}80%{opacity:1}100%{top:calc(50% + 70px);opacity:0}}
-.cm{position:absolute;bottom:0;left:0;right:0;padding:8px 10px;text-align:center;font-family:'Exo 2',sans-serif;font-size:.75rem;font-weight:700;background:rgba(0,0,0,.65);}
-.cph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;background:#050d1a;padding:14px;text-align:center;}
-.cph .ci{font-size:2.3rem;}.cph p{color:var(--muted);font-size:.78rem;line-height:1.4;}
-.pbtn{background:linear-gradient(135deg,#003a60,var(--accent));color:#fff;font-family:'Exo 2',sans-serif;font-weight:800;font-size:.88rem;padding:11px 16px;border-radius:10px;border:none;width:100%;cursor:pointer;margin-top:7px;display:flex;align-items:center;justify-content:center;gap:6px;}
+.cam-ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);width:160px;height:160px;border-radius:50%;border:3px solid var(--accent);box-shadow:0 0 0 2000px rgba(0,0,0,.5),0 0 30px var(--accent);pointer-events:none;animation:ring-pulse 1.5s infinite;}
+@keyframes ring-pulse{0%,100%{box-shadow:0 0 0 2000px rgba(0,0,0,.5),0 0 20px var(--accent)}50%{box-shadow:0 0 0 2000px rgba(0,0,0,.5),0 0 40px var(--accent)}}
+.cam-sl{position:absolute;left:50%;transform:translateX(-50%);width:140px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);pointer-events:none;animation:scan-anim 2s linear infinite;}
+@keyframes scan-anim{0%{top:calc(50% - 75px);opacity:1}80%{opacity:1}100%{top:calc(50% + 75px);opacity:0}}
+.cam-msg{position:absolute;bottom:0;left:0;right:0;padding:9px 10px;text-align:center;font-family:'Exo 2',sans-serif;font-size:.8rem;font-weight:700;background:rgba(0,0,0,.7);}
+.cph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:#050d1a;padding:14px;text-align:center;}
+.cph .ci{font-size:2.5rem;}.cph p{color:var(--muted);font-size:.8rem;line-height:1.4;}
+.pbtn{background:linear-gradient(135deg,#003a60,var(--accent));color:#fff;font-family:'Exo 2',sans-serif;font-weight:800;font-size:.9rem;padding:12px 16px;border-radius:10px;border:none;width:100%;cursor:pointer;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:6px;}
 .pbtn:active{transform:scale(.97);}
-/* LIVENESS CHALLENGE BOX */
-.challenge{border-radius:13px;padding:14px 12px;margin-bottom:10px;text-align:center;}
-.ch-wait{background:rgba(0,201,255,.06);border:1px solid rgba(0,201,255,.2);}
-.ch-active{background:rgba(255,159,0,.08);border:2px solid var(--orange);animation:pulse-ch 1s infinite;}
-.ch-done{background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.3);}
-.ch-fail{background:rgba(255,68,68,.08);border:1px solid rgba(255,68,68,.3);}
-@keyframes pulse-ch{0%,100%{box-shadow:0 0 0 rgba(255,159,0,0)}50%{box-shadow:0 0 12px rgba(255,159,0,.4)}}
-.ch-icon{font-size:2rem;margin-bottom:5px;}
-.ch-title{font-family:'Exo 2',sans-serif;font-size:1rem;font-weight:900;}
-.ch-sub{font-size:.78rem;color:var(--muted);margin-top:3px;}
-.ch-timer{font-family:'Exo 2',sans-serif;font-size:1.4rem;font-weight:900;color:var(--orange);margin-top:5px;}
-/* STEPS */
-.steps{display:flex;gap:6px;margin-bottom:10px;}
-.step{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,.08);}
-.step.done{background:var(--green);}.step.active{background:var(--orange);animation:pulse-s .8s infinite;}
-@keyframes pulse-s{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* FLASH EFFECT */
+.flash{position:fixed;inset:0;background:#fff;z-index:999;opacity:0;pointer-events:none;transition:opacity .1s;}
+.flash.go{opacity:.9;}
+
+/* COUNTDOWN */
+.countdown{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Exo 2',sans-serif;font-size:4rem;font-weight:900;color:#fff;text-shadow:0 0 20px var(--accent);z-index:10;pointer-events:none;display:none;}
+
+/* CAPTURED PHOTO */
+.captured-wrap{position:relative;border-radius:13px;overflow:hidden;margin-bottom:10px;border:3px solid var(--green);box-shadow:0 0 20px rgba(0,230,118,.3);}
+.captured-img{width:100%;display:block;border-radius:10px;}
+.captured-badge{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.7);color:var(--green);font-family:'Exo 2',sans-serif;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid rgba(0,230,118,.4);}
+
+/* ATT BUTTONS */
+.ar{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+.ab{border-radius:13px;border:none;cursor:pointer;padding:16px 10px;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:'Exo 2',sans-serif;transition:all .15s;}
+.ab:active{transform:scale(.95);}
+.ab .ai{font-size:1.7rem;}.ab .at{font-size:.95rem;font-weight:900;}.ab .as{font-size:.67rem;opacity:.8;}
+.a-st{background:linear-gradient(145deg,#003d1a,var(--green));color:#000;box-shadow:0 4px 18px rgba(0,230,118,.35);}
+.a-en{background:linear-gradient(145deg,#5a0000,var(--red));color:#fff;box-shadow:0 4px 18px rgba(255,68,68,.35);}
+.ab:disabled{opacity:.28;pointer-events:none;}
+
 /* ALERT */
 .al{border-radius:9px;padding:9px 12px;font-size:.8rem;display:none;align-items:flex-start;gap:6px;line-height:1.4;margin-bottom:9px;}
-.al.sh{display:flex;}.al-e{background:rgba(255,68,68,.12);border:1px solid rgba(255,68,68,.3);color:#ff9999;}
+.al.sh{display:flex;}
+.al-e{background:rgba(255,68,68,.12);border:1px solid rgba(255,68,68,.3);color:#ff9999;}
 .al-ok{background:rgba(0,230,118,.1);border:1px solid rgba(0,230,118,.3);color:var(--green);}
 .al-w{background:rgba(255,159,0,.1);border:1px solid rgba(255,159,0,.3);color:var(--orange);}
-/* ATT */
-.ar{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
-.ab{border-radius:13px;border:none;cursor:pointer;padding:15px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:'Exo 2',sans-serif;transition:all .15s;}
-.ab:active{transform:scale(.95);}.ab .ai{font-size:1.6rem;}.ab .at{font-size:.9rem;font-weight:900;}.ab .as{font-size:.65rem;opacity:.8;}
-.a-st{background:linear-gradient(145deg,#003d1a,var(--green));color:#000;box-shadow:0 4px 16px rgba(0,230,118,.3);}
-.a-en{background:linear-gradient(145deg,#5a0000,var(--red));color:#fff;box-shadow:0 4px 16px rgba(255,68,68,.3);}
-.ab:disabled{opacity:.3;pointer-events:none;}
-.sr{text-align:center;padding:14px 10px;font-family:'Exo 2',sans-serif;border-radius:12px;margin-bottom:8px;}
-.sr-ok{background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.25);}
-.sr-fl{background:rgba(255,68,68,.08);border:1px solid rgba(255,68,68,.25);}
-.sic{font-size:2rem;margin-bottom:4px;}.s-ok{color:var(--green);font-size:.88rem;font-weight:700;}.s-fl{color:var(--red);font-size:.88rem;font-weight:700;}
-.prog-wrap{margin:7px 0;}.prog-bar{height:5px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:3px;}
-.prog-fill{height:100%;border-radius:3px;transition:width .4s ease;}
-.prog-lbl{font-size:.68rem;color:var(--muted);font-family:'Exo 2',sans-serif;}
-.bdg{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:50px;font-size:.68rem;font-weight:700;font-family:'Exo 2',sans-serif;}
+
+/* BADGE */
+.bdg{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:50px;font-size:.7rem;font-weight:700;font-family:'Exo 2',sans-serif;}
 .bg{background:rgba(0,230,118,.15);color:var(--green);border:1px solid rgba(0,230,118,.3);}
 .bo{background:rgba(255,159,0,.15);color:var(--orange);border:1px solid rgba(255,159,0,.3);}
+
+/* TABLE */
 .tw{overflow-x:auto;border-radius:10px;}
 table{width:100%;border-collapse:collapse;font-size:.78rem;}
 th{background:rgba(0,201,255,.07);color:var(--accent);font-family:'Exo 2',sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.4px;padding:8px 9px;text-align:left;border-bottom:1px solid var(--border);}
-td{padding:7px 9px;border-bottom:1px solid rgba(255,255,255,.04);}
-.thumb{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--green);margin:3px;}
-.tw2{display:flex;flex-wrap:wrap;margin:6px 0 4px;}
-.sc{font-family:'Exo 2',sans-serif;font-size:.78rem;color:var(--green);margin-bottom:4px;}
+td{padding:7px 9px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;}
+
+/* LOG PHOTO */
+.log-photo{width:44px;height:44px;border-radius:8px;object-fit:cover;border:1px solid var(--border);cursor:pointer;}
+.log-photo:active{transform:scale(1.05);}
+.no-photo{width:44px;height:44px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
+
+/* MODAL for photo zoom */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:200;align-items:center;justify-content:center;flex-direction:column;gap:12px;}
+.modal-bg.sh{display:flex;}
+.modal-img{max-width:90vw;max-height:75vh;border-radius:12px;border:2px solid var(--accent);}
+.modal-info{font-family:'Exo 2',sans-serif;font-size:.85rem;color:var(--accent);text-align:center;}
+.modal-close{background:rgba(255,255,255,.1);color:var(--text);border:1px solid var(--border);padding:8px 20px;border-radius:8px;font-family:'Exo 2',sans-serif;font-weight:700;cursor:pointer;}
+
+/* TABS */
 .tabs{display:flex;background:rgba(255,255,255,.04);border-radius:9px;padding:3px;margin-bottom:12px;}
 .tab{flex:1;text-align:center;padding:8px;border-radius:7px;font-family:'Exo 2',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;color:var(--muted);transition:all .2s;}
 .tab.on{background:var(--accent2);color:#fff;}
+
+/* EMP */
 .arow{display:flex;align-items:center;gap:7px;}
-.av{width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid var(--border);flex-shrink:0;}
-.av0{width:30px;height:30px;border-radius:50%;background:rgba(0,201,255,.1);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+.av{width:32px;height:32px;border-radius:50%;object-fit:cover;border:1px solid var(--border);flex-shrink:0;}
+.av0{width:32px;height:32px;border-radius:50%;background:rgba(0,201,255,.1);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
 .ei{display:flex;align-items:center;gap:10px;margin-bottom:11px;}
 .ea{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);}
 .ea0{width:52px;height:52px;border-radius:50%;background:rgba(0,201,255,.1);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.6rem;}
-.en{font-family:'Exo 2',sans-serif;font-size:1rem;font-weight:800;}.er{font-size:.75rem;color:var(--muted);}.es{font-size:.75rem;margin-top:3px;}
-canvas{display:none;}hr{border:none;border-top:1px solid var(--border);margin:10px 0;}
-#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0d1f3c;border:1px solid var(--border);padding:8px 16px;border-radius:50px;font-family:'Exo 2',sans-serif;font-size:.82rem;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;box-shadow:0 4px 24px rgba(0,0,0,.6);max-width:92vw;text-align:center;}
+.en{font-family:'Exo 2',sans-serif;font-size:1rem;font-weight:800;}
+.er{font-size:.75rem;color:var(--muted);}
+.es{font-size:.75rem;margin-top:3px;}
+
+/* THUMB */
+.thumb{width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid var(--green);margin:3px;}
+.tw2{display:flex;flex-wrap:wrap;margin:6px 0 4px;}
+.sc{font-family:'Exo 2',sans-serif;font-size:.78rem;color:var(--green);margin-bottom:4px;}
+
+canvas{display:none;}
+hr{border:none;border-top:1px solid var(--border);margin:10px 0;}
+
+/* TOAST */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0d1f3c;border:1px solid var(--border);padding:9px 18px;border-radius:50px;font-family:'Exo 2',sans-serif;font-size:.82rem;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;box-shadow:0 4px 24px rgba(0,0,0,.7);max-width:92vw;text-align:center;}
 #toast.on{opacity:1;}
 </style>
 </head>
 <body>
 <div class="app">
+<div class="flash" id="flash"></div>
+
 <header>
   <div class="logo">👁 <b>Корманд</b>ҚАЙД</div>
   <div id="htime"><div id="hd"></div><span id="ht"></span></div>
@@ -121,20 +158,24 @@ canvas{display:none;}hr{border:none;border-top:1px solid var(--border);margin:10
 <!-- MENU -->
 <div class="page active" id="pg-menu">
   <div class="menu">
-    <div class="mh"><h1>Системаи Қайди Кормандон</h1><p>Скани зинда · Муқоисаи воқеӣ · Ҳисобот</p></div>
+    <div class="mh">
+      <h1>Системаи Қайди Кормандон</h1>
+      <p>Суратгирии автоматӣ · Журнал бо сурат</p>
+    </div>
     <div class="mgrid">
-      <div class="mc" onclick="go('pg-login')"><div class="ic">🔐</div><h3>Воридшавӣ</h3><p>Қайди ҳузур</p></div>
+      <div class="mc" onclick="go('pg-login')"><div class="ic">🔐</div><h3>Воридшавӣ</h3><p>Қайди ҳузур бо сурат</p></div>
       <div class="mc" onclick="go('pg-admin')"><div class="ic">⚙️</div><h3>Идоракунӣ</h3><p>Бақайдгирии кормандон</p></div>
-      <div class="mc w" onclick="go('pg-log')"><div class="ic">📋</div><h3>Журнали Ҳузур</h3><p>Ҳисоботи вақти корӣ</p></div>
+      <div class="mc w" onclick="go('pg-log')"><div class="ic">📋</div><h3>Журнали Ҳузур</h3><p>Бо суратҳои оғоз ва анҷом</p></div>
     </div>
   </div>
 </div>
 
-<!-- LOGIN -->
+<!-- LOGIN PAGE -->
 <div class="page" id="pg-login">
   <div class="wrap">
     <button class="back" onclick="go('pg-menu')">← Бозгашт</button>
     <div class="stitle">🔐 Воридшавӣ</div>
+
     <div id="sf">
       <div class="cd">
         <label>Логин</label>
@@ -145,49 +186,55 @@ canvas{display:none;}hr{border:none;border-top:1px solid var(--border);margin:10
         <button class="btn btn-p" onclick="doLogin()">Ворид шавед →</button>
       </div>
     </div>
+
     <div id="sa" style="display:none">
+      <!-- Emp info -->
       <div class="cd">
         <div class="ei" id="eib"></div>
         <div id="ast" style="font-size:.78rem;color:var(--muted)"></div>
       </div>
-      <!-- Scan section -->
-      <div id="csec" style="display:none">
-        <div class="cd">
-          <!-- Steps indicator -->
-          <div class="steps" id="steps-bar">
-            <div class="step" id="step1"></div>
-            <div class="step" id="step2"></div>
-            <div class="step" id="step3"></div>
+
+      <!-- Camera capture section (shown when button pressed) -->
+      <div class="cd" id="csec" style="display:none">
+        <div style="font-size:.8rem;color:var(--muted);margin-bottom:9px" id="cam-lbl">📷 Камера сурат мегирад...</div>
+        <div class="co" id="aco">
+          <div class="cph" id="aph">
+            <div class="ci">⏳</div>
+            <p>Камера кушода мешавад...</p>
           </div>
-          <!-- Challenge instruction -->
-          <div class="challenge ch-wait" id="challenge-box">
-            <div class="ch-icon" id="ch-icon">📷</div>
-            <div class="ch-title" id="ch-title">Камера омода мешавад</div>
-            <div class="ch-sub" id="ch-sub">Лутфан камераро иҷозат диҳед</div>
-            <div class="ch-timer" id="ch-timer" style="display:none"></div>
+          <video id="av" autoplay muted playsinline style="display:none"></video>
+          <div class="cam-ring" id="a-ring" style="display:none"></div>
+          <div class="cam-sl" id="a-sl" style="display:none"></div>
+          <div class="cam-msg" id="a-msg" style="display:none;color:var(--accent)"></div>
+          <div class="countdown" id="countdown"></div>
+        </div>
+        <canvas id="ac" width="480" height="360"></canvas>
+
+        <!-- Captured photo preview -->
+        <div id="photo-preview" style="display:none">
+          <div class="captured-wrap">
+            <img id="captured-img" class="captured-img" src="">
+            <div class="captured-badge" id="captured-badge">📸 Сурат гирифта шуд</div>
           </div>
-          <!-- Camera -->
-          <div class="co" id="aco">
-            <div class="cph" id="aph"><div class="ci">📷</div><p>Камера кушода мешавад...</p></div>
-            <video id="av" autoplay muted playsinline style="display:none"></video>
-            <div class="cr" id="ar" style="display:none"></div>
-            <div class="sl" id="asl" style="display:none"></div>
-            <div class="cm" id="acm" style="display:none;color:var(--accent)"></div>
-          </div>
-          <canvas id="ac" width="64" height="64"></canvas>
-          <div id="asr" style="display:none"></div>
+          <div id="capture-status" style="text-align:center;font-family:'Exo 2',sans-serif;font-size:.9rem;color:var(--green);margin-bottom:6px"></div>
         </div>
       </div>
+
+      <!-- Action buttons -->
       <div class="ar">
-        <button class="ab a-st" id="bs" onclick="attAct('start')"><div class="ai">▶️</div><div class="at">ОҒОЗ</div><div class="as">Оғози кор</div></button>
-        <button class="ab a-en" id="be" onclick="attAct('end')"><div class="ai">⏹</div><div class="at">АНҶОМ</div><div class="as">Анҷоми кор</div></button>
+        <button class="ab a-st" id="bs" onclick="attAct('start')">
+          <div class="ai">▶️</div><div class="at">ОҒОЗ</div><div class="as">Оғози кор</div>
+        </button>
+        <button class="ab a-en" id="be" onclick="attAct('end')">
+          <div class="ai">⏹</div><div class="at">АНҶОМ</div><div class="as">Анҷоми кор</div>
+        </button>
       </div>
       <button class="btn btn-ol btn-sm" style="margin-top:10px" onclick="doLogout()">Хуруҷ</button>
     </div>
   </div>
 </div>
 
-<!-- ADMIN -->
+<!-- ADMIN PAGE -->
 <div class="page" id="pg-admin">
   <div class="wrap">
     <button class="back" onclick="go('pg-menu')">← Бозгашт</button>
@@ -200,7 +247,7 @@ canvas{display:none;}hr{border:none;border-top:1px solid var(--border);margin:10
     </div>
     <div id="apanel" style="display:none">
       <div class="tabs">
-        <div class="tab on" id="ta" onclick="aTab('add')">➕ Илова</div>
+        <div class="tab on" id="ta" onclick="aTab('add')">➕ Корманд Илова</div>
         <div class="tab" id="tl" onclick="aTab('list')">📋 Рӯйхат</div>
       </div>
       <div id="atadd">
@@ -211,471 +258,353 @@ canvas{display:none;}hr{border:none;border-top:1px solid var(--border);margin:10
           <label>Вазифа</label><input type="text" id="erl" placeholder="Омӯзгор...">
         </div>
         <div class="cd">
-          <div style="font-family:'Exo 2',sans-serif;font-weight:800;color:var(--accent);margin-bottom:5px;font-size:.9rem">📷 Скани Чеҳра</div>
-          <div style="font-size:.73rem;color:var(--muted);margin-bottom:8px">Ҳадди аққал <b style="color:var(--accent)">5 намуна</b> — аз кунҷҳои гуногун гиред</div>
+          <div style="font-family:'Exo 2',sans-serif;font-weight:800;color:var(--accent);margin-bottom:5px;font-size:.9rem">📷 Сурати корманд (ихтиёрӣ)</div>
+          <div style="font-size:.73rem;color:var(--muted);margin-bottom:8px">Барои муқоисаи визуалӣ дар журнал</div>
           <div class="co" id="rco">
             <div class="cph" id="rph"><div class="ci">📷</div><p>Камераро фаъол кунед</p></div>
             <video id="rv" autoplay muted playsinline style="display:none"></video>
-            <div class="cr" id="rr" style="display:none"></div>
-            <div class="sl" id="rs" style="display:none"></div>
-            <div class="cm" id="rcm" style="display:none;color:var(--accent)"></div>
+            <div class="cam-ring" id="rr" style="display:none"></div>
+            <div class="cam-sl" id="rs" style="display:none"></div>
+            <div class="cam-msg" id="rcm" style="display:none;color:var(--accent)"></div>
           </div>
-          <canvas id="rc" width="64" height="64"></canvas>
+          <canvas id="rc" width="200" height="200"></canvas>
           <div class="tw2" id="thmbs"></div>
           <div class="sc" id="sct" style="display:none"></div>
           <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px">
             <button class="btn btn-ol btn-sm" onclick="openRegCam()">📷 Камера</button>
-            <button class="btn btn-sm" id="bcap" onclick="capFace()" disabled style="background:rgba(0,230,118,.1);color:var(--green);border:1px solid rgba(0,230,118,.3)">📸 Намуна Гир</button>
-            <button class="btn btn-sm" id="bclr" onclick="clrS()" style="display:none;background:rgba(255,68,68,.1);color:var(--red);border:1px solid rgba(255,68,68,.3)">🗑</button>
+            <button class="btn btn-sm" id="bcap" onclick="capPhoto()" disabled style="background:rgba(0,230,118,.1);color:var(--green);border:1px solid rgba(0,230,118,.3)">📸 Сурат Гир</button>
+            <button class="btn btn-sm" id="bclr" onclick="clrPhotos()" style="display:none;background:rgba(255,68,68,.1);color:var(--red);border:1px solid rgba(255,68,68,.3)">🗑</button>
           </div>
           <div class="al" id="ral"></div>
           <button class="btn btn-p" onclick="saveEmp()">💾 Корманд Сабт Кун</button>
         </div>
       </div>
-      <div id="atlist" style="display:none"><div class="cd" id="emplist"></div></div>
+      <div id="atlist" style="display:none">
+        <div class="cd" id="emplist"></div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- LOG -->
+<!-- LOG PAGE -->
 <div class="page" id="pg-log">
-  <div class="wrap">
+  <div class="wrap" style="max-width:700px">
     <button class="back" onclick="go('pg-menu')">← Бозгашт</button>
     <div class="stitle">📋 Журнали Ҳузур</div>
+    <div style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Суратро барои калон кардан пахш кунед</div>
     <div class="cd" id="logout"></div>
+    <button class="btn" style="background:rgba(255,68,68,.1);color:var(--red);border:1px solid rgba(255,68,68,.3);margin-top:8px;width:auto;padding:9px 16px;font-size:.8rem" onclick="clearLog()">🗑 Журналро Тоза Кун</button>
   </div>
 </div>
+
+<!-- PHOTO MODAL -->
+<div class="modal-bg" id="modal" onclick="closeModal()">
+  <img class="modal-img" id="modal-img" src="" alt="">
+  <div class="modal-info" id="modal-info"></div>
+  <button class="modal-close" onclick="closeModal()">✕ Бастан</button>
 </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
-// ═══════════════════════════════════
+// ════════════════════════════════════════
 // DATA
-// ═══════════════════════════════════
-let emps=JSON.parse(localStorage.getItem('kde3')||'[]');
-let logs=JSON.parse(localStorage.getItem('kdl3')||'[]');
-let curE=null,regStr=null,attStr=null,regSmp=[],pendAct=null;
-let livenessTimers=[];
+// ════════════════════════════════════════
+let emps = JSON.parse(localStorage.getItem('kd_emp')||'[]');
+let logs = JSON.parse(localStorage.getItem('kd_log')||'[]');
+let curE = null;
+let attStream = null, regStream = null;
+let regPhotos = []; // {dataUrl} array for registration
+let pendAct = null;
+let camTimers = [];
 
-// ═══════════════════════════════════
+// ════════════════════════════════════════
 // TIME
-// ═══════════════════════════════════
+// ════════════════════════════════════════
 function tick(){
-  const n=new Date(),wd=['Якш','Душ','Сеш','Чорш','Панҷш','Ҷум','Шанб'],mn=['Янв','Феб','Март','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'];
-  document.getElementById('hd').textContent=wd[n.getDay()]+', '+n.getDate()+' '+mn[n.getMonth()];
-  document.getElementById('ht').textContent=n.toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const n=new Date();
+  const wd=['Якш','Душ','Сеш','Чорш','Панҷш','Ҷум','Шанб'];
+  const mn=['Янв','Феб','Март','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'];
+  document.getElementById('hd').textContent = wd[n.getDay()]+', '+n.getDate()+' '+mn[n.getMonth()];
+  document.getElementById('ht').textContent = n.toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
 }
-setInterval(tick,1000);tick();
+setInterval(tick,1000); tick();
 
-// ═══════════════════════════════════
+// ════════════════════════════════════════
 // NAV
-// ═══════════════════════════════════
+// ════════════════════════════════════════
 function go(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   stopAll();
-  if(id==='pg-log')renderLog();
-  if(id==='pg-admin'){document.getElementById('aauth').style.display='block';document.getElementById('apanel').style.display='none';document.getElementById('apw').value='';document.getElementById('aerr').classList.remove('sh');}
-  if(id==='pg-login'){document.getElementById('sf').style.display='block';document.getElementById('sa').style.display='none';document.getElementById('lu').value='';document.getElementById('lp').value='';document.getElementById('lerr').classList.remove('sh');}
+  if(id==='pg-log') renderLog();
+  if(id==='pg-admin'){
+    document.getElementById('aauth').style.display='block';
+    document.getElementById('apanel').style.display='none';
+    document.getElementById('apw').value='';
+    document.getElementById('aerr').classList.remove('sh');
+  }
+  if(id==='pg-login'){
+    document.getElementById('sf').style.display='block';
+    document.getElementById('sa').style.display='none';
+    document.getElementById('lu').value='';
+    document.getElementById('lp').value='';
+    document.getElementById('lerr').classList.remove('sh');
+  }
 }
 
-// ═══════════════════════════════════
+// ════════════════════════════════════════
 // TOAST
-// ═══════════════════════════════════
-let ttm;function toast(m,c='var(--accent)'){const t=document.getElementById('toast');t.textContent=m;t.style.color=c;t.classList.add('on');clearTimeout(ttm);ttm=setTimeout(()=>t.classList.remove('on'),3200);}
-
-// ═══════════════════════════════════
-// FACE MATCHING — Multi-feature robust
-// ═══════════════════════════════════
-const MATCH_THR = 0.42; // lowered for mobile lighting variance
-const BINS = 16; // fewer bins = more tolerant to lighting
-
-// Extract multiple features from face region
-function extractFeatures(ctx, x, y, w, h) {
-  const d = ctx.getImageData(x, y, w, h).data;
-  const rH=new Float32Array(BINS), gH=new Float32Array(BINS), bH=new Float32Array(BINS);
-  const step = Math.floor(256/BINS);
-  let rSum=0, gSum=0, bSum=0, tot=0;
-  for(let i=0;i<d.length;i+=4){
-    if(d[i+3]<10) continue;
-    rH[Math.floor(d[i]/step)]++;
-    gH[Math.floor(d[i+1]/step)]++;
-    bH[Math.floor(d[i+2]/step)]++;
-    rSum+=d[i]; gSum+=d[i+1]; bSum+=d[i+2];
-    tot++;
-  }
-  if(tot>0){
-    for(let i=0;i<BINS;i++){rH[i]/=tot;gH[i]/=tot;bH[i]/=tot;}
-    rSum/=tot; gSum/=tot; bSum/=tot;
-  }
-  // Skin tone ratio (r/g, r/b) — stable across lighting
-  const rgRatio = gSum>0 ? rSum/gSum : 1;
-  const rbRatio = bSum>0 ? rSum/bSum : 1;
-  // Normalized brightness
-  const brightness = (rSum+gSum+bSum)/3/255;
-  return {rH,gH,bH, rgRatio, rbRatio, brightness};
+// ════════════════════════════════════════
+let ttm;
+function toast(m,c='var(--accent)'){
+  const t=document.getElementById('toast');
+  t.textContent=m; t.style.color=c;
+  t.classList.add('on');
+  clearTimeout(ttm);
+  ttm=setTimeout(()=>t.classList.remove('on'),3200);
 }
 
-// Bhattacharyya histogram similarity
-function histSim(h1,h2){
-  let s=0;
-  for(const c of['rH','gH','bH'])
-    for(let i=0;i<BINS;i++) s+=Math.sqrt((h1[c][i]||0)*(h2[c][i]||0));
-  return s/BINS;
+// ════════════════════════════════════════
+// FLASH EFFECT (camera shutter)
+// ════════════════════════════════════════
+function doFlash(){
+  const f=document.getElementById('flash');
+  f.classList.add('go');
+  setTimeout(()=>f.classList.remove('go'),150);
 }
 
-// Skin ratio similarity (lighting-invariant)
-function ratioSim(f1,f2){
-  const rgDiff = Math.abs(f1.rgRatio-f2.rgRatio)/Math.max(f1.rgRatio,f2.rgRatio,0.01);
-  const rbDiff = Math.abs(f1.rbRatio-f2.rbRatio)/Math.max(f1.rbRatio,f2.rbRatio,0.01);
-  return 1 - Math.min((rgDiff+rbDiff)/2, 1);
-}
-
-function snapFeatures(vid, cv){
-  const ctx=cv.getContext('2d');
-  ctx.save();ctx.scale(-1,1);ctx.drawImage(vid,-64,0,64,64);ctx.restore();
-  // Use center face region
-  const cx=12, cy=6, cw=40, ch=45;
-  return extractFeatures(ctx, cx, cy, cw, ch);
-}
-
-function matchEmp(feat, emp){
-  if(!emp.feats||!emp.feats.length) return {ok:true, score:1};
-  let bestScore=0;
-  for(const stored of emp.feats){
-    // Weighted combination: 60% histogram + 40% skin ratio
-    const hScore = histSim(feat, stored);
-    const rScore = ratioSim(feat, stored);
-    const combined = hScore*0.6 + rScore*0.4;
-    if(combined > bestScore) bestScore=combined;
-  }
-  return {ok: bestScore>=MATCH_THR, score: bestScore};
-}
-
-// ═══════════════════════════════════
-// CAMERA
-// ═══════════════════════════════════
-async function startCam(vid,onOk,onFail){
+// ════════════════════════════════════════
+// CAMERA HELPER
+// ════════════════════════════════════════
+async function startCam(vid, onOk, onFail){
   stopCams();
-  if(!navigator.mediaDevices?.getUserMedia){onFail({name:'NotSupported'});return;}
-  for(const c of[{video:{facingMode:'user',width:{ideal:640}}},{video:{facingMode:{ideal:'user'}}},{video:true}]){
+  if(!navigator.mediaDevices?.getUserMedia){ onFail({name:'NotSupported'}); return; }
+  const options = [
+    {video:{facingMode:'user', width:{ideal:640}, height:{ideal:480}}},
+    {video:{facingMode:{ideal:'user'}}},
+    {video:true}
+  ];
+  for(const c of options){
     try{
-      const s=await navigator.mediaDevices.getUserMedia(c);
-      vid.srcObject=s;vid.style.display='block';
-      await new Promise((res,rej)=>{vid.onloadedmetadata=()=>vid.play().then(res).catch(rej);setTimeout(rej,8000);});
-      onOk(s);return;
-    }catch(e){if(e.name==='NotAllowedError'||e.name==='PermissionDeniedError'){onFail(e);return;}}
+      const s = await navigator.mediaDevices.getUserMedia(c);
+      vid.srcObject = s;
+      vid.style.display = 'block';
+      await new Promise((res,rej)=>{ vid.onloadedmetadata=()=>vid.play().then(res).catch(rej); setTimeout(rej,8000); });
+      onOk(s); return;
+    }catch(e){
+      if(e.name==='NotAllowedError'||e.name==='PermissionDeniedError'){ onFail(e); return; }
+    }
   }
   onFail({name:'NotFoundError'});
 }
 
-function stopCams(){[regStr,attStr].forEach(s=>{if(s)s.getTracks().forEach(t=>t.stop())});regStr=null;attStr=null;}
-function stopAll(){livenessTimers.forEach(clearTimeout);livenessTimers=[];stopCams();}
-function camErr(e){
-  if(!e)return'Камера дастрас нест';
-  if(e.name==='NotAllowedError'||e.name==='PermissionDeniedError')return'Иҷозати камера рад шуд.\nАз Chrome: 🔒 → Camera → Allow';
-  if(e.name==='NotFoundError')return'Камера ёфт нашуд.';
-  return'Хатои камера. Дубора кӯшиш кунед.';
+function stopCams(){
+  [attStream,regStream].forEach(s=>{ if(s) s.getTracks().forEach(t=>t.stop()); });
+  attStream=null; regStream=null;
+}
+function stopAll(){
+  camTimers.forEach(clearTimeout); camTimers=[];
+  stopCams();
 }
 
-// ═══════════════════════════════════
+function camErrMsg(e){
+  if(!e) return 'Камера дастрас нест';
+  if(e.name==='NotAllowedError'||e.name==='PermissionDeniedError')
+    return 'Иҷозати камера рад шуд.\nДар Chrome: 🔒 → Camera → Allow кунед';
+  if(e.name==='NotFoundError') return 'Камера ёфт нашуд';
+  return 'Хатои камера — дубора кӯшиш кунед';
+}
+
+// ════════════════════════════════════════
+// CAPTURE PHOTO from video
+// ════════════════════════════════════════
+function captureFrame(vid, cv, w, h){
+  cv.width=w; cv.height=h;
+  const ctx=cv.getContext('2d');
+  ctx.save(); ctx.scale(-1,1); ctx.drawImage(vid,-w,0,w,h); ctx.restore();
+  return cv.toDataURL('image/jpeg', 0.75);
+}
+
+// ════════════════════════════════════════
 // LOGIN
-// ═══════════════════════════════════
+// ════════════════════════════════════════
 function doLogin(){
   const u=document.getElementById('lu').value.trim().toLowerCase();
   const p=document.getElementById('lp').value;
-  const emp=emps.find(e=>e.lg.toLowerCase()===u&&e.pw===p);
-  if(!emp){document.getElementById('lerr').classList.add('sh');return;}
+  const emp=emps.find(e=>e.lg.toLowerCase()===u && e.pw===p);
+  if(!emp){ document.getElementById('lerr').classList.add('sh'); return; }
   document.getElementById('lerr').classList.remove('sh');
   curE=emp;
   document.getElementById('sf').style.display='none';
   document.getElementById('sa').style.display='block';
+
   const tl=getTL(emp.id);
   let st='⚪ Имрӯз ҳанӯз қайд нашудааст';
-  if(tl?.s&&tl?.e)st='✅ '+tl.s+' — '+tl.e;
-  else if(tl?.s)st='▶️ Оғоз: '+tl.s;
-  document.getElementById('eib').innerHTML=(emp.av?`<img class="ea" src="${emp.av}">`:`<div class="ea0">👤</div>`)+`<div><div class="en">${emp.fn}</div><div class="er">${emp.rl}</div><div class="es" style="color:var(--muted)">${st}</div></div>`;
-  document.getElementById('bs').disabled=!!(tl?.s);
-  document.getElementById('be').disabled=!(tl?.s)||!!(tl?.e);
+  if(tl?.s && tl?.e) st='✅ '+tl.s+' — '+tl.e;
+  else if(tl?.s) st='▶️ Оғоз: '+tl.s;
+
+  document.getElementById('eib').innerHTML =
+    (emp.av?`<img class="ea" src="${emp.av}">`:`<div class="ea0">👤</div>`) +
+    `<div><div class="en">${emp.fn}</div><div class="er">${emp.rl}</div><div class="es" style="color:var(--muted)">${st}</div></div>`;
+
+  document.getElementById('bs').disabled = !!(tl?.s);
+  document.getElementById('be').disabled = !(tl?.s) || !!(tl?.e);
   document.getElementById('csec').style.display='none';
-  document.getElementById('asr').style.display='none';
+  document.getElementById('photo-preview').style.display='none';
 }
-function doLogout(){curE=null;stopAll();go('pg-login');}
 
-// ═══════════════════════════════════
-// LIVENESS + FACE CHECK PIPELINE
-// ═══════════════════════════════════
-// Challenges: 1) Blink  2) Turn head left/right  3) Show random fingers
-// Each challenge uses motion/brightness change detection as proxy
+function doLogout(){ curE=null; stopAll(); go('pg-login'); }
 
-let liveState={};
-
+// ════════════════════════════════════════
+// ATTENDANCE — OPEN CAM → COUNTDOWN → SNAP → SAVE
+// ════════════════════════════════════════
 function attAct(type){
-  if(!curE)return;
+  if(!curE) return;
   pendAct=type;
   stopAll();
-  if(!curE.feats||!curE.feats.length){
-    // No face data — just record
-    recDirect(type);
-    toast('⚠️ Намунаи чеҳра нест — бе скан қайд шуд','var(--orange)');
-    return;
-  }
-  document.getElementById('csec').style.display='block';
-  document.getElementById('asr').style.display='none';
-  resetSteps();
-  const ph=document.getElementById('aph'),vid=document.getElementById('av');
-  ph.style.display='flex';ph.innerHTML=`<div class="ci">⏳</div><p>Камера кушода мешавад...<br><small style="color:var(--muted);font-size:.7rem">Иҷозат диҳед агар пурсида шавад</small></p>`;
-  document.getElementById('av').style.display='none';
-  document.getElementById('ar').style.display='none';
-  document.getElementById('asl').style.display='none';
-  document.getElementById('acm').style.display='none';
-  setTimeout(()=>document.getElementById('csec').scrollIntoView({behavior:'smooth',block:'nearest'}),150);
-  startCam(vid,(s)=>{
-    attStr=s;ph.style.display='none';
-    document.getElementById('ar').style.display='block';
-    document.getElementById('asl').style.display='block';
-    document.getElementById('acm').style.display='block';
-    startLivenessChallenge();
-  },(err)=>{
-    ph.innerHTML=`<div class="ci">⚠️</div><p style="white-space:pre-line;font-size:.75rem;margin-bottom:7px">${camErr(err)}</p><button class="pbtn" onclick="attAct('${type}')">🔄 Дубора</button>`;
-  });
-}
 
-// Generate random challenge sequence
-function getLivenessChallenges(){
-  const pool=[
-    {icon:'😉',title:'ЧАШМАК ЗАНЕД',sub:'Як бор чашм ба ҳам занед',id:'blink',secs:5},
-    {icon:'⬅️',title:'ЧАПРО НИГОҲ КУНЕД',sub:'Сарро каме ба чап гардонед',id:'turn_left',secs:5},
-    {icon:'➡️',title:'РОСТРО НИГОҲ КУНЕД',sub:'Сарро каме ба рост гардонед',id:'turn_right',secs:5},
-    {icon:'⬆️',title:'БОЛО НИГОҲ КУНЕД',sub:'Сарро каме боло бардоред',id:'turn_up',secs:5},
-    {icon:'😊',title:'ТАБАССУМ КУНЕД',sub:'Каме табассум кунед',id:'smile',secs:4},
-  ];
-  // Pick 2 random challenges
-  const shuffled=pool.sort(()=>Math.random()-.5);
-  return shuffled.slice(0,2);
-}
+  const sec=document.getElementById('csec');
+  const lbl=document.getElementById('cam-lbl');
+  sec.style.display='block';
+  document.getElementById('photo-preview').style.display='none';
+  lbl.textContent = type==='start' ? '📷 Камера — суратгирии ОҒОЗ' : '📷 Камера — суратгирии АНҶОМ';
+  lbl.style.color = type==='start' ? 'var(--green)' : 'var(--red)';
 
-function resetSteps(){
-  ['step1','step2','step3'].forEach(id=>{
-    const el=document.getElementById(id);
-    el.className='step';
-  });
-}
-
-function setStep(n,state){
-  const el=document.getElementById('step'+n);
-  el.className='step '+(state==='done'?'done':state==='active'?'active':'');
-}
-
-function startLivenessChallenge(){
+  const ph=document.getElementById('aph');
   const vid=document.getElementById('av');
-  const cv=document.getElementById('ac');
-  const challenges=getLivenessChallenges();
-  liveState={challenges,current:0,passed:0,prevFrame:null,changeFrames:0};
-  setStep(1,'active');
-  runChallenge(0);
-}
+  const ring=document.getElementById('a-ring');
+  const sl=document.getElementById('a-sl');
+  const msg=document.getElementById('a-msg');
+  const cd=document.getElementById('countdown');
 
-function runChallenge(idx){
-  const {challenges}=liveState;
-  if(idx>=challenges.length){
-    // All liveness passed — now do face match
-    setStep(Math.min(idx,3),'done');
-    doFaceMatch();
-    return;
-  }
-  const ch=challenges[idx];
-  setStep(idx+1,'active');
-  if(idx>0)setStep(idx,'done');
+  ph.style.display='flex';
+  ph.innerHTML='<div class="ci">⏳</div><p>Камера кушода мешавад...<br><small style="color:var(--muted);font-size:.7rem">Иҷозат диҳед агар пурсида шавад</small></p>';
+  vid.style.display='none'; ring.style.display='none'; sl.style.display='none';
+  msg.style.display='none'; cd.style.display='none';
 
-  const box=document.getElementById('challenge-box');
-  box.className='challenge ch-active';
-  document.getElementById('ch-icon').textContent=ch.icon;
-  document.getElementById('ch-title').textContent=ch.title;
-  document.getElementById('ch-sub').textContent=ch.sub;
-  const timerEl=document.getElementById('ch-timer');
-  timerEl.style.display='block';
+  setTimeout(()=>sec.scrollIntoView({behavior:'smooth',block:'nearest'}),150);
 
-  // Sample frames to detect motion/brightness change
-  const vid=document.getElementById('av');
-  const cv=document.getElementById('ac');
-  const ctx=cv.getContext('2d');
+  startCam(vid,
+    (stream)=>{
+      attStream=stream;
+      ph.style.display='none';
+      vid.style.display='block';
+      ring.style.display='block';
+      sl.style.display='block';
+      msg.style.display='block';
+      cd.style.display='block';
+      msg.style.color='var(--orange)';
 
-  let timeLeft=ch.secs;
-  let prevBrightness=null;
-  let motionDetected=false;
-  let checkCount=0;
+      // 3-second countdown then snap
+      let cnt=3;
+      cd.textContent=cnt;
+      msg.textContent='Мустақим ба камера нигоҳ кунед...';
 
-  timerEl.textContent=timeLeft+'с';
-  const cmsg=document.getElementById('acm');
-  cmsg.style.color='var(--orange)';
-  cmsg.textContent=ch.icon+' '+ch.title;
-
-  const ring=document.getElementById('ar');
-  ring.className='cr';
-
-  // Sample every 200ms
-  const sampleInterval=setInterval(()=>{
-    ctx.save();ctx.scale(-1,1);ctx.drawImage(vid,-64,0,64,64);ctx.restore();
-    const frame=ctx.getImageData(0,0,64,64).data;
-
-    // Calculate average brightness
-    let sum=0;
-    for(let i=0;i<frame.length;i+=4)sum+=(frame[i]+frame[i+1]+frame[i+2])/3;
-    const brightness=sum/(frame.length/4);
-
-    if(prevBrightness!==null){
-      const diff=Math.abs(brightness-prevBrightness);
-      if(diff>1.5){checkCount++;} // motion threshold
-      if(checkCount>=2) motionDetected=true;
+      const itv=setInterval(()=>{
+        cnt--;
+        if(cnt>0){
+          cd.textContent=cnt;
+        } else {
+          clearInterval(itv);
+          cd.textContent='📸';
+          msg.textContent='Сурат гирифта мешавад!';
+          msg.style.color='var(--green)';
+          // Snap!
+          const t=setTimeout(()=>{
+            doFlash();
+            const dataUrl=captureFrame(vid, document.getElementById('ac'), 480, 360);
+            // Stop cam
+            if(attStream){ attStream.getTracks().forEach(t=>t.stop()); attStream=null; }
+            vid.style.display='none'; ring.style.display='none';
+            sl.style.display='none'; msg.style.display='none'; cd.style.display='none';
+            ph.style.display='flex';
+            ph.innerHTML='<div class="ci">✅</div><p style="color:var(--green)">Сурат гирифта шуд!</p>';
+            showCapturedPhoto(dataUrl, type);
+            recordAttendance(type, dataUrl);
+          },400);
+          camTimers.push(t);
+        }
+      },1000);
+      camTimers.push(itv);
+    },
+    (err)=>{
+      ph.innerHTML=`<div class="ci">⚠️</div>
+        <p style="white-space:pre-line;font-size:.76rem;margin-bottom:8px">${camErrMsg(err)}</p>
+        <button class="pbtn" onclick="attAct('${type}')">🔄 Дубора Кӯшиш</button>
+        <button class="pbtn" style="background:linear-gradient(135deg,#3a2a00,var(--orange));margin-top:6px;font-size:.82rem" onclick="recordWithoutPhoto('${type}')">⏩ Бе Сурат Қайд Кун</button>`;
     }
-    prevBrightness=brightness;
-  },200);
-
-  // Countdown timer
-  const countdown=setInterval(()=>{
-    timeLeft--;
-    timerEl.textContent=timeLeft+'с';
-    if(timeLeft<=0){
-      clearInterval(countdown);
-      clearInterval(sampleInterval);
-
-      if(motionDetected){
-        // Challenge passed
-        ring.className='cr ok';
-        cmsg.style.color='var(--green)';
-        cmsg.textContent='✅ '+ch.title+' — тасдиқ шуд!';
-        box.className='challenge ch-done';
-        document.getElementById('ch-icon').textContent='✅';
-        document.getElementById('ch-title').textContent='Тасдиқ шуд!';
-        document.getElementById('ch-sub').textContent='Давом медиҳем...';
-        timerEl.style.display='none';
-        liveState.passed++;
-        const t=setTimeout(()=>runChallenge(idx+1),800);
-        livenessTimers.push(t);
-      } else {
-        // Challenge failed — might be photo
-        ring.className='cr fail';
-        cmsg.style.color='var(--red)';
-        cmsg.textContent='❌ Ҳаракат дида нашуд!';
-        box.className='challenge ch-fail';
-        document.getElementById('ch-icon').textContent='❌';
-        document.getElementById('ch-title').textContent='САНҶИШ НАГУЗАШТ!';
-        document.getElementById('ch-sub').textContent='Расм ё ҳаракат нашуд';
-        timerEl.style.display='none';
-        stopCams();
-        showFail('❌ Шахси зинда нест ё расм нишон дода шуд!\n\nБарнома қайдро рад кард.','photo_spoof');
-      }
-    }
-  },1000);
-  livenessTimers.push(countdown);
+  );
 }
 
-function doFaceMatch(){
-  const vid=document.getElementById('av');
-  const cv=document.getElementById('ac');
-  const cmsg=document.getElementById('acm');
-  const ring=document.getElementById('ar');
-
-  cmsg.style.color='var(--accent)';
-  cmsg.textContent='🔍 Чеҳра муқоиса мешавад...';
-  document.getElementById('challenge-box').className='challenge ch-wait';
-  document.getElementById('ch-icon').textContent='🔍';
-  document.getElementById('ch-title').textContent='МУҚОИСАИ ЧЕҲРА';
-  document.getElementById('ch-sub').textContent='Лутфан мустақим нигоҳ кунед';
-  document.getElementById('ch-timer').style.display='none';
-  setStep(3,'active');
-
-  // Capture 3 frames, average scores
-  const scores=[];
-  let done=0;
-  function cap(){
-    const h=snapFeatures(vid,cv);
-    const r=matchEmp(h,curE);
-    scores.push(r.score);
-    done++;
-    if(done<3){livenessTimers.push(setTimeout(cap,350));}
-    else{
-      const avg=scores.reduce((a,b)=>a+b,0)/scores.length;
-      const matched=avg>=MATCH_THR;
-      stopCams();
-      document.getElementById('av').style.display='none';
-      document.getElementById('ar').style.display='none';
-      document.getElementById('asl').style.display='none';
-      document.getElementById('acm').style.display='none';
-      document.getElementById('aph').style.display='flex';
-      setStep(3,'done');
-      if(matched){
-        document.getElementById('aph').innerHTML=`<div class="ci">✅</div><p style="color:var(--green)">Ҳама санҷишҳо гузашт!</p>`;
-        document.getElementById('challenge-box').className='challenge ch-done';
-        document.getElementById('ch-icon').textContent='✅';
-        document.getElementById('ch-title').textContent='ТАСДИҚ ШУД!';
-        document.getElementById('ch-sub').textContent='Зинда будан ва чеҳра тасдиқ';
-        showSuccess(avg);
-        livenessTimers.push(setTimeout(()=>recDirect(pendAct),900));
-      } else {
-        document.getElementById('aph').innerHTML=`<div class="ci">❌</div><p style="color:var(--red)">Чеҳра мувофиқ нест</p>`;
-        showFail('Чеҳра мувофиқ нест! Шумо корманди дигар ё нури кам аст.','face_mismatch',avg);
-      }
-    }
-  }
-  livenessTimers.push(setTimeout(cap,500));
+function showCapturedPhoto(dataUrl, type){
+  const preview=document.getElementById('photo-preview');
+  const img=document.getElementById('captured-img');
+  const badge=document.getElementById('captured-badge');
+  const status=document.getElementById('capture-status');
+  img.src=dataUrl;
+  badge.textContent = type==='start' ? '▶️ ОҒОЗ' : '⏹ АНҶОМ';
+  badge.style.color = type==='start' ? 'var(--green)' : 'var(--red)';
+  status.textContent = type==='start' ? '✅ Оғоз бо сурат сабт шуд!' : '✅ Анҷом бо сурат сабт шуд!';
+  status.style.color = type==='start' ? 'var(--green)' : 'var(--orange)';
+  preview.style.display='block';
 }
 
-function showSuccess(score){
-  const pct=Math.round(score*100);
-  const res=document.getElementById('asr');
-  res.style.display='block';
-  res.innerHTML=`<div class="sr sr-ok">
-    <div class="sic">🛡️</div>
-    <div class="s-ok">Ҳамаи санҷишҳо гузашт!</div>
-    <div style="font-size:.72rem;color:var(--muted);margin-top:4px">✅ Зинда будан тасдиқ<br>✅ Чеҳра мувофиқат кард</div>
-    <div class="prog-wrap" style="margin-top:8px">
-      <div class="prog-bar"><div class="prog-fill" style="width:${Math.min(pct,100)}%;background:var(--green)"></div></div>
-      <div class="prog-lbl">Мувофиқати чеҳра: ${pct}%</div>
-    </div>
-  </div>`;
-}
+// ════════════════════════════════════════
+// RECORD ATTENDANCE
+// ════════════════════════════════════════
+function recordAttendance(type, photoDataUrl){
+  if(!curE) return;
+  const n=new Date();
+  const ts=n.toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'});
+  const ds=n.toLocaleDateString('ru');
 
-function showFail(msg,reason,score){
-  const pct=score?Math.round(score*100):0;
-  const res=document.getElementById('asr');
-  res.style.display='block';
-  const isSpoof=reason==='photo_spoof';
-  res.innerHTML=`<div class="sr sr-fl">
-    <div class="sic">${isSpoof?'🚫':'❌'}</div>
-    <div class="s-fl">${isSpoof?'РАСМ ЁД ТАҚАЛЛУБ!':'ЧЕҲРА МУВОФИҚ НЕСТ!'}</div>
-    <div style="font-size:.72rem;color:var(--muted);margin-top:4px;white-space:pre-line">${msg}</div>
-    ${score?`<div class="prog-wrap" style="margin-top:8px">
-      <div class="prog-bar"><div class="prog-fill" style="width:${Math.min(pct,100)}%;background:var(--red)"></div></div>
-      <div class="prog-lbl">Мувофиқат: ${pct}% (лозим: ${Math.round(MATCH_THR*100)}%)</div>
-    </div>`:''}
-    <button class="pbtn" style="margin-top:10px;font-size:.85rem" onclick="attAct(pendAct)">🔄 Дубора Кӯшиш</button>
-  </div>`;
-}
-
-// ═══════════════════════════════════
-// RECORD
-// ═══════════════════════════════════
-function recDirect(type){
-  if(!curE)return;
-  const n=new Date(),ts=n.toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'}),ds=n.toLocaleDateString('ru');
   let tl=getTL(curE.id);
-  if(!tl){tl={id:curE.id,nm:curE.fn,dt:ds,s:null,e:null};logs.push(tl);}
-  if(type==='start'&&!tl.s){tl.s=ts;toast('▶️ Оғоз сабт шуд: '+ts,'var(--green)');document.getElementById('bs').disabled=true;document.getElementById('be').disabled=false;updSt('▶️ Оғоз: '+ts);}
-  else if(type==='end'&&tl.s&&!tl.e){tl.e=ts;toast('⏹ Анҷом сабт шуд: '+ts,'var(--orange)');document.getElementById('be').disabled=true;updSt('✅ '+tl.s+' — '+ts);}
-  else toast('⚠️ Аллакай сабт шудааст','var(--orange)');
+  if(!tl){ tl={id:curE.id, nm:curE.fn, dt:ds, s:null, e:null, sPhoto:null, ePhoto:null}; logs.push(tl); }
+
+  if(type==='start' && !tl.s){
+    tl.s=ts; tl.sPhoto=photoDataUrl||null;
+    document.getElementById('bs').disabled=true;
+    document.getElementById('be').disabled=false;
+    updSt('▶️ Оғоз: '+ts);
+    toast('▶️ Оғоз сабт шуд: '+ts,'var(--green)');
+  } else if(type==='end' && tl.s && !tl.e){
+    tl.e=ts; tl.ePhoto=photoDataUrl||null;
+    document.getElementById('be').disabled=true;
+    updSt('✅ '+tl.s+' — '+ts);
+    toast('⏹ Анҷом сабт шуд: '+ts,'var(--orange)');
+  } else {
+    toast('⚠️ Аллакай сабт шудааст','var(--orange)');
+  }
   saveLogs();
 }
-function updSt(t){const el=document.getElementById('eib');const s=el.querySelector('.es');if(s)s.textContent=t;}
-function getTL(id){const ds=new Date().toLocaleDateString('ru');return logs.find(l=>l.id===id&&l.dt===ds);}
-function saveLogs(){localStorage.setItem('kdl3',JSON.stringify(logs));}
 
-// ═══════════════════════════════════
+function recordWithoutPhoto(type){
+  document.getElementById('csec').style.display='none';
+  recordAttendance(type, null);
+  toast('⚠️ Бе сурат сабт шуд','var(--orange)');
+}
+
+function updSt(t){
+  const el=document.getElementById('eib');
+  const s=el.querySelector('.es');
+  if(s) s.textContent=t;
+}
+
+function getTL(id){
+  const ds=new Date().toLocaleDateString('ru');
+  return logs.find(l=>l.id===id && l.dt===ds);
+}
+function saveLogs(){ localStorage.setItem('kd_log',JSON.stringify(logs)); }
+
+// ════════════════════════════════════════
 // ADMIN
-// ═══════════════════════════════════
+// ════════════════════════════════════════
 function adminAuth(){
-  if(document.getElementById('apw').value!=='admin123'){document.getElementById('aerr').classList.add('sh');return;}
+  if(document.getElementById('apw').value!=='admin123'){
+    document.getElementById('aerr').classList.add('sh'); return;
+  }
   document.getElementById('aerr').classList.remove('sh');
   document.getElementById('aauth').style.display='none';
   document.getElementById('apanel').style.display='block';
@@ -686,98 +615,174 @@ function aTab(t){
   document.getElementById('tl').classList.toggle('on',t==='list');
   document.getElementById('atadd').style.display=t==='add'?'block':'none';
   document.getElementById('atlist').style.display=t==='list'?'block':'none';
-  if(t==='list')renderEmpList();
+  if(t==='list') renderEmpList();
 }
 
-// ═══════════════════════════════════
-// REGISTER FACE
-// ═══════════════════════════════════
+// ════════════════════════════════════════
+// REGISTER — capture profile photo
+// ════════════════════════════════════════
 function openRegCam(){
-  regSmp=[];document.getElementById('thmbs').innerHTML='';document.getElementById('sct').style.display='none';document.getElementById('bclr').style.display='none';
-  const ph=document.getElementById('rph'),vid=document.getElementById('rv');
-  ph.style.display='flex';ph.innerHTML=`<div class="ci">⏳</div><p>Камера кушода мешавад...<br><small style="color:var(--muted);font-size:.7rem">Иҷозат диҳед агар пурсида шавад</small></p>`;
-  vid.style.display='none';['rr','rs','rcm'].forEach(i=>document.getElementById(i).style.display='none');
-  startCam(vid,(s)=>{
-    regStr=s;ph.style.display='none';
-    ['rr','rs','rcm'].forEach(i=>document.getElementById(i).style.display='block');
-    document.getElementById('rcm').textContent='👁 Рӯбарӯи камера нигоҳ кунед';
-    document.getElementById('bcap').disabled=false;
-  },(err)=>{
-    ph.innerHTML=`<div class="ci">⚠️</div><p style="font-size:.75rem;white-space:pre-line;margin-bottom:7px">${camErr(err)}</p><button class="pbtn" onclick="openRegCam()">🔄 Дубора</button>`;
-    showRAl(camErr(err),'al-w');
-  });
+  regPhotos=[];
+  document.getElementById('thmbs').innerHTML='';
+  document.getElementById('sct').style.display='none';
+  document.getElementById('bclr').style.display='none';
+
+  const ph=document.getElementById('rph'), vid=document.getElementById('rv');
+  ph.style.display='flex';
+  ph.innerHTML='<div class="ci">⏳</div><p>Камера кушода мешавад...<br><small style="color:var(--muted);font-size:.7rem">Иҷозат диҳед агар пурсида шавад</small></p>';
+  vid.style.display='none';
+  ['rr','rs','rcm'].forEach(i=>document.getElementById(i).style.display='none');
+
+  startCam(vid,
+    (s)=>{
+      regStream=s; ph.style.display='none'; vid.style.display='block';
+      ['rr','rs','rcm'].forEach(i=>document.getElementById(i).style.display='block');
+      document.getElementById('rcm').textContent='👁 Рӯбарӯи камера нигоҳ кунед';
+      document.getElementById('bcap').disabled=false;
+    },
+    (err)=>{
+      ph.innerHTML=`<div class="ci">⚠️</div><p style="font-size:.76rem;white-space:pre-line;margin-bottom:8px">${camErrMsg(err)}</p><button class="pbtn" onclick="openRegCam()">🔄 Дубора</button>`;
+      showRAl(camErrMsg(err),'al-w');
+    }
+  );
 }
 
-function capFace(){
-  const vid=document.getElementById('rv'),cv=document.getElementById('rc');
-  const feat=snapFeatures(vid,cv);
-  const bigCv=document.createElement('canvas');bigCv.width=80;bigCv.height=80;
-  const bctx=bigCv.getContext('2d');
-  bctx.save();bctx.scale(-1,1);bctx.drawImage(vid,-80,0,80,80);bctx.restore();
-  const previewUrl=bigCv.toDataURL('image/jpeg',.6);
-  regSmp.push({feat,previewUrl});
-  const img=document.createElement('img');img.className='thumb';img.src=previewUrl;
+function capPhoto(){
+  const vid=document.getElementById('rv'), cv=document.getElementById('rc');
+  doFlash();
+  const dataUrl=captureFrame(vid,cv,200,200);
+  regPhotos.push(dataUrl);
+
+  const img=document.createElement('img');
+  img.className='thumb'; img.src=dataUrl;
   document.getElementById('thmbs').appendChild(img);
-  const sc=document.getElementById('sct');sc.style.display='block';
-  sc.textContent='✅ '+regSmp.length+' намуна'+(regSmp.length>=5?' — Кифоя!':' (ҳадди аққал 5 лозим)');
+
+  const sc=document.getElementById('sct');
+  sc.style.display='block';
+  sc.textContent='✅ '+regPhotos.length+' сурат гирифта шуд';
   document.getElementById('bclr').style.display='inline-flex';
-  const msgs=['Каме чапро нигоҳ кунед','Каме ростро нигоҳ кунед','Боло нигоҳ кунед','Поин нигоҳ кунед','Мустақим нигоҳ кунед','Наздиктар шавед','Дуртар шавед'];
-  document.getElementById('rcm').textContent='✅ '+msgs[Math.min(regSmp.length-1,msgs.length-1)];
-  toast('📸 Намуна №'+regSmp.length+' сабт шуд','var(--green)');
+  document.getElementById('rcm').textContent='✅ Гирифта шуд! Боз як кунҷи дигар';
+  toast('📸 Сурат №'+regPhotos.length+' сабт шуд','var(--green)');
 }
 
-function clrS(){regSmp=[];document.getElementById('thmbs').innerHTML='';document.getElementById('sct').style.display='none';document.getElementById('bclr').style.display='none';toast('🗑 Тоза шуд');}
-function showRAl(m,c){const e=document.getElementById('ral');e.className='al '+c+' sh';e.textContent=m;}
+function clrPhotos(){
+  regPhotos=[];
+  document.getElementById('thmbs').innerHTML='';
+  document.getElementById('sct').style.display='none';
+  document.getElementById('bclr').style.display='none';
+  toast('🗑 Тоза шуд');
+}
 
-// ═══════════════════════════════════
-// SAVE EMP
-// ═══════════════════════════════════
+function showRAl(m,c){ const e=document.getElementById('ral'); e.className='al '+c+' sh'; e.textContent=m; }
+
+// ════════════════════════════════════════
+// SAVE EMPLOYEE
+// ════════════════════════════════════════
 function saveEmp(){
   const fn=document.getElementById('efn').value.trim();
   const lg=document.getElementById('elg').value.trim().toLowerCase();
   const pw=document.getElementById('epw').value;
   const rl=document.getElementById('erl').value.trim()||'Корманд';
-  if(!fn||!lg||!pw){showRAl('⚠️ Ҳамаи майдонҳоро пур кунед!','al-e');return;}
-  if(emps.find(e=>e.lg===lg)){showRAl('⚠️ Ин логин аллакай мавҷуд!','al-e');return;}
-  if(regSmp.length<3){showRAl('⚠️ Ҳадди аққал 3 намунаи чеҳра лозим!','al-e');return;}
-  const emp={id:Date.now()+'',fn,lg,pw,rl,feats:regSmp.map(s=>s.feat),av:regSmp[Math.floor(regSmp.length/2)].previewUrl||null,sampleCount:regSmp.length,dt:new Date().toLocaleDateString('ru')};
-  emps.push(emp);localStorage.setItem('kde3',JSON.stringify(emps));
-  showRAl('✅ '+fn+' бомуваффақият сабт шуд! ('+regSmp.length+' намуна)','al-ok');
+
+  if(!fn||!lg||!pw){ showRAl('⚠️ Ҳамаи майдонҳоро пур кунед!','al-e'); return; }
+  if(emps.find(e=>e.lg===lg)){ showRAl('⚠️ Ин логин аллакай мавҷуд!','al-e'); return; }
+
+  const emp={
+    id: Date.now()+'', fn, lg, pw, rl,
+    av: regPhotos[0]||null,
+    dt: new Date().toLocaleDateString('ru')
+  };
+  emps.push(emp);
+  localStorage.setItem('kd_emp',JSON.stringify(emps));
+  showRAl('✅ '+fn+' бомуваффақият сабт шуд!','al-ok');
   toast('✅ '+fn+' сабт шуд','var(--green)');
+
   ['efn','elg','epw','erl'].forEach(i=>document.getElementById(i).value='');
-  clrS();
-  if(regStr){regStr.getTracks().forEach(t=>t.stop());regStr=null;}
-  ['rv','rr','rs','rcm'].forEach(i=>{const e=document.getElementById(i);if(e)e.style.display='none';});
+  clrPhotos();
+  if(regStream){ regStream.getTracks().forEach(t=>t.stop()); regStream=null; }
+  ['rv','rr','rs','rcm'].forEach(i=>{ const e=document.getElementById(i); if(e) e.style.display='none'; });
   document.getElementById('rph').style.display='flex';
   document.getElementById('rph').innerHTML='<div class="ci">📷</div><p>Камераро фаъол кунед</p>';
   document.getElementById('bcap').disabled=true;
 }
 
-// ═══════════════════════════════════
-// EMP LIST
-// ═══════════════════════════════════
+// ════════════════════════════════════════
+// EMPLOYEE LIST
+// ════════════════════════════════════════
 function renderEmpList(){
   const el=document.getElementById('emplist');
-  if(!emps.length){el.innerHTML='<div style="color:var(--muted);text-align:center;padding:14px">Ҳанӯз корманд нест</div>';return;}
-  el.innerHTML=`<div class="tw"><table><thead><tr><th>Корманд</th><th>Логин</th><th>Вазифа</th><th>Чеҳра</th><th></th></tr></thead><tbody>${emps.map(e=>`<tr><td><div class="arow">${e.av?`<img class="av" src="${e.av}">`:`<div class="av0">👤</div>`} ${e.fn}</div></td><td style="color:var(--muted)">${e.lg}</td><td>${e.rl}</td><td>${e.feats?.length?`<span class="bdg bg">${e.feats.length}📷</span>`:`<span class="bdg bo">Нест</span>`}</td><td><button onclick="delEmp('${e.id}')" style="background:rgba(255,68,68,.1);color:var(--red);border:1px solid rgba(255,68,68,.3);border-radius:7px;padding:4px 7px;cursor:pointer;font-size:.72rem">🗑</button></td></tr>`).join('')}</tbody></table></div>`;
+  if(!emps.length){ el.innerHTML='<div style="color:var(--muted);text-align:center;padding:14px">Ҳанӯз корманд нест</div>'; return; }
+  el.innerHTML=`<div class="tw"><table>
+    <thead><tr><th>Сурат</th><th>Корманд</th><th>Логин</th><th>Вазифа</th><th></th></tr></thead>
+    <tbody>${emps.map(e=>`<tr>
+      <td>${e.av?`<img class="log-photo" src="${e.av}" onclick="openModal('${e.av}','${e.fn}','профил')">`:`<div class="no-photo">👤</div>`}</td>
+      <td><b>${e.fn}</b></td>
+      <td style="color:var(--muted)">${e.lg}</td>
+      <td>${e.rl}</td>
+      <td><button onclick="delEmp('${e.id}')" style="background:rgba(255,68,68,.1);color:var(--red);border:1px solid rgba(255,68,68,.3);border-radius:7px;padding:4px 8px;cursor:pointer;font-size:.75rem">🗑</button></td>
+    </tr>`).join('')}</tbody></table></div>`;
 }
-function delEmp(id){if(!confirm('Нест кунед?'))return;emps=emps.filter(e=>e.id!==id);localStorage.setItem('kde3',JSON.stringify(emps));renderEmpList();toast('🗑 Нест шуд','var(--red)');}
+function delEmp(id){
+  if(!confirm('Нест кунед?')) return;
+  emps=emps.filter(e=>e.id!==id);
+  localStorage.setItem('kd_emp',JSON.stringify(emps));
+  renderEmpList(); toast('🗑 Нест шуд','var(--red)');
+}
 
-// ═══════════════════════════════════
-// LOG
-// ═══════════════════════════════════
+// ════════════════════════════════════════
+// LOG with PHOTOS
+// ════════════════════════════════════════
 function renderLog(){
   const el=document.getElementById('logout');
-  if(!logs.length){el.innerHTML='<div style="color:var(--muted);text-align:center;padding:14px">Ёддошт нест</div>';return;}
-  el.innerHTML=`<div class="tw"><table><thead><tr><th>Корманд</th><th>Сана</th><th>Оғоз</th><th>Анҷом</th><th>Вақт</th><th></th></tr></thead><tbody>${[...logs].reverse().map(l=>{
-    let dur='—',b=`<span class="bdg bo">⏳</span>`;
-    if(l.s&&l.e){const[sh,sm]=l.s.split(':').map(Number),[eh,em]=l.e.split(':').map(Number),m=(eh*60+em)-(sh*60+sm);if(m>0)dur=m>=60?Math.floor(m/60)+'с '+(m%60)+'д':m+'д';b=`<span class="bdg bg">✅</span>`;}
-    const e=emps.find(e=>e.id===l.id);
-    return`<tr><td><div class="arow">${e?.av?`<img class="av" src="${e.av}">`:`<div class="av0">👤</div>`} ${l.nm}</div></td><td style="color:var(--muted);font-size:.72rem">${l.dt}</td><td style="color:var(--green)">${l.s||'—'}</td><td style="color:var(--red)">${l.e||'—'}</td><td style="font-family:'Exo 2',sans-serif;font-weight:700">${dur}</td><td>${b}</td></tr>`;
-  }).join('')}</tbody></table></div>`;
+  if(!logs.length){ el.innerHTML='<div style="color:var(--muted);text-align:center;padding:14px">Ёддошт нест</div>'; return; }
+  const sorted=[...logs].reverse();
+  el.innerHTML=`<div class="tw"><table>
+    <thead><tr><th>Корманд</th><th>Сана</th><th>Оғоз</th><th>Сурат↑</th><th>Анҷом</th><th>Сурат↓</th><th>Вақт</th></tr></thead>
+    <tbody>${sorted.map(l=>{
+      let dur='—';
+      if(l.s&&l.e){
+        const[sh,sm]=l.s.split(':').map(Number),[eh,em]=l.e.split(':').map(Number),m=(eh*60+em)-(sh*60+sm);
+        if(m>0) dur=m>=60?Math.floor(m/60)+'с '+(m%60)+'д':m+'д';
+      }
+      const sImg=l.sPhoto?`<img class="log-photo" src="${l.sPhoto}" onclick="openModal('${l.sPhoto}','${l.nm}','оғоз — ${l.s||''}')">`:`<div class="no-photo" title="Сурат нест">📷</div>`;
+      const eImg=l.ePhoto?`<img class="log-photo" src="${l.ePhoto}" onclick="openModal('${l.ePhoto}','${l.nm}','анҷом — ${l.e||''}')">`:`<div class="no-photo" title="Сурат нест">📷</div>`;
+      const emp=emps.find(e=>e.id===l.id);
+      return`<tr>
+        <td><div class="arow">${emp?.av?`<img class="av" src="${emp.av}">`:`<div class="av0">👤</div>`} ${l.nm}</div></td>
+        <td style="color:var(--muted);font-size:.72rem">${l.dt}</td>
+        <td style="color:var(--green);font-family:'Exo 2',sans-serif;font-weight:700">${l.s||'—'}</td>
+        <td>${sImg}</td>
+        <td style="color:var(--red);font-family:'Exo 2',sans-serif;font-weight:700">${l.e||'—'}</td>
+        <td>${eImg}</td>
+        <td style="font-family:'Exo 2',sans-serif;font-weight:700;color:var(--accent)">${dur}</td>
+      </tr>`;
+    }).join('')}</tbody></table></div>`;
 }
 
-if(!emps.length)setTimeout(()=>toast('💡 Идоракунӣ → admin123 → Корманд илова кунед'),1500);
+function clearLog(){
+  if(!confirm('Ҳамаи журналро нест кунед?')) return;
+  logs=[];
+  localStorage.setItem('kd_log',JSON.stringify(logs));
+  renderLog();
+  toast('🗑 Журнал тоза шуд','var(--red)');
+}
+
+// ════════════════════════════════════════
+// PHOTO MODAL
+// ════════════════════════════════════════
+function openModal(src, name, label){
+  document.getElementById('modal-img').src=src;
+  document.getElementById('modal-info').textContent=name+' — '+label;
+  document.getElementById('modal').classList.add('sh');
+}
+function closeModal(){
+  document.getElementById('modal').classList.remove('sh');
+}
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+if(!emps.length) setTimeout(()=>toast('💡 Идоракунӣ → admin123 → Корманд илова кунед'),1500);
 </script>
 </body>
 </html>
