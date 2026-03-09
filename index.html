@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="tg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>КормандҚАЙД — Скани Чеҳра</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;800;900&family=Noto+Sans:wght@300;400;600&display=swap');
+:root{--bg:#060d1a;--panel:#0d1b2e;--card:#0f2140;--accent:#00c9ff;--accent2:#0055cc;--green:#00e676;--red:#ff4444;--orange:#ff9f00;--text:#e0eeff;--muted:#4a6a90;--border:rgba(0,201,255,0.18);}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto Sans',sans-serif;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,201,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,201,255,0.04) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0;}
+.app{position:relative;z-index:1;min-height:100vh;}
+header{background:linear-gradient(135deg,#08122a,#0d2050);border-bottom:1px solid var(--border);padding:0 16px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 20px rgba(0,0,0,0.6);}
+.logo{font-family:'Exo 2',sans-serif;font-weight:900;font-size:1.1rem;color:var(--accent);}
+.logo b{color:var(--text);font-weight:300;}
+#htime{font-family:'Exo 2',sans-serif;font-size:.72rem;color:var(--muted);text-align:right;line-height:1.6;}
+#htime span{display:block;font-size:.9rem;color:var(--accent);font-weight:700;}
+.page{display:none;}.page.active{display:block;animation:fu .3s ease;}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.menu{min-height:calc(100vh - 58px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 16px;gap:24px;}
+.mh{text-align:center;}.mh h1{font-family:'Exo 2',sans-serif;font-size:1.5rem;font-weight:900;background:linear-gradient(135deg,var(--accent),#7a6fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.mh p{color:var(--muted);font-size:.82rem;margin-top:4px;}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:380px;}
+.mc{background:linear-gradient(145deg,#0d1f3c,#0e1d38);border:1px solid var(--border);border-radius:16px;padding:20px 14px;text-align:center;cursor:pointer;transition:all .15s;box-shadow:0 4px 18px rgba(0,0,0,0.4);}
+.mc:active{transform:scale(.95);}.mc .ic{font-size:1.9rem;margin-bottom:7px;}.mc h3{font-family:'Exo 2',sans-serif;font-size:.88rem;font-weight:700;}.mc p{font-size:.7rem;color:var(--muted);margin-top:3px;line-height:1.3;}.mc.w{grid-column:1/-1;}
+.wrap{max-width:480px;margin:0 auto;padding:14px 14px 30px;}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:.83rem;cursor:pointer;background:none;border:none;margin-bottom:14px;padding:4px 0;}
+.back:active{color:var(--accent);}
+.stitle{font-family:'Exo 2',sans-serif;font-size:1.2rem;font-weight:800;color:var(--accent);margin-bottom:14px;}
+.cd{background:linear-gradient(145deg,#0d1f3c,#0e1d38);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 4px 22px rgba(0,0,0,0.4);}
+label{display:block;font-size:.73rem;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px;}
+input[type=text],input[type=password]{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:10px;padding:12px 13px;color:var(--text);font-size:.93rem;outline:none;margin-bottom:11px;-webkit-appearance:none;font-family:'Noto Sans',sans-serif;}
+input:focus{border-color:var(--accent);}input::placeholder{color:var(--muted);}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 16px;border-radius:12px;font-family:'Exo 2',sans-serif;font-weight:700;font-size:.93rem;cursor:pointer;border:none;width:100%;-webkit-appearance:none;transition:all .15s;}
+.btn:active{transform:scale(.97);}.btn-p{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;}
+.btn-ol{background:rgba(0,201,255,0.08);color:var(--accent);border:1px solid rgba(0,201,255,0.3);}
+.btn-sm{width:auto;padding:9px 13px;font-size:.8rem;}
+.btn:disabled{opacity:.35;pointer-events:none;}
+/* CAMERA */
+.co{position:relative;width:100%;border-radius:14px;overflow:hidden;background:#000;aspect-ratio:4/3;border:2px solid var(--border);margin-bottom:10px;}
+video{width:100%;height:100%;object-fit:cover;display:block;transform:scaleX(-1);}
+.cr{position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);width:155px;height:155px;border-radius:50%;border:2px solid var(--accent);box-shadow:0 0 0 2000px rgba(0,0,0,.45),0 0 25px var(--accent);pointer-events:none;}
+.sl{position:absolute;left:50%;transform:translateX(-50%);width:135px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);pointer-events:none;animation:sa 2s linear infinite;}
+@keyframes sa{0%{top:calc(50% - 72px);opacity:1}80%{opacity:1}100%{top:calc(50% + 72px);opacity:0}}
+.cm{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Exo 2',sans-serif;font-size:.75rem;font-weight:600;color:var(--accent);text-shadow:0 0 8px var(--accent);}
+.cph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:#050d1a;padding:16px;text-align:center;}
+.cph .ci{font-size:2.5rem;}.cph p{color:var(--muted);font-size:.82rem;line-height:1.4;}
+.pbtn{background:linear-gradient(135deg,#003a60,var(--accent));color:#fff;font-family:'Exo 2',sans-serif;font-weight:800;font-size:.93rem;padding:12px 18px;border-radius:11px;border:none;width:100%;cursor:pointer;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:7px;}
+.pbtn:active{transform:scale(.97);}
+.pbtn2{background:linear-gradient(135deg,#3a2a00,var(--orange));color:#000;font-size:.83rem;margin-top:6px;}
+/* ALERT */
+.al{border-radius:10px;padding:10px 13px;font-size:.83rem;display:none;align-items:flex-start;gap:7px;line-height:1.4;margin-bottom:10px;}
+.al.sh{display:flex;}.al-e{background:rgba(255,68,68,.12);border:1px solid rgba(255,68,68,.3);color:#ff9999;}
+.al-ok{background:rgba(0,230,118,.1);border:1px solid rgba(0,230,118,.3);color:var(--green);}
+.al-i{background:rgba(0,201,255,.08);border:1px solid rgba(0,201,255,.25);color:var(--accent);}
+.al-w{background:rgba(255,159,0,.1);border:1px solid rgba(255,159,0,.3);color:var(--orange);}
+/* ATT */
+.ar{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+.ab{border-radius:14px;border:none;cursor:pointer;padding:16px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:'Exo 2',sans-serif;transition:all .15s;}
+.ab:active{transform:scale(.95);}.ab .ai{font-size:1.7rem;}.ab .at{font-size:.95rem;font-weight:900;}.ab .as{font-size:.68rem;opacity:.8;font-weight:400;}
+.a-st{background:linear-gradient(145deg,#003d1a,var(--green));color:#000;box-shadow:0 4px 18px rgba(0,230,118,.3);}
+.a-en{background:linear-gradient(145deg,#5a0000,var(--red));color:#fff;box-shadow:0 4px 18px rgba(255,68,68,.3);}
+.ab:disabled{opacity:.3;pointer-events:none;}
+/* BADGE */
+.bdg{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:50px;font-size:.72rem;font-weight:700;font-family:'Exo 2',sans-serif;}
+.bg{background:rgba(0,230,118,.15);color:var(--green);border:1px solid rgba(0,230,118,.3);}
+.br{background:rgba(255,68,68,.15);color:var(--red);border:1px solid rgba(255,68,68,.3);}
+.bo{background:rgba(255,159,0,.15);color:var(--orange);border:1px solid rgba(255,159,0,.3);}
+/* TABLE */
+.tw{overflow-x:auto;border-radius:11px;}
+table{width:100%;border-collapse:collapse;font-size:.8rem;}
+th{background:rgba(0,201,255,.07);color:var(--accent);font-family:'Exo 2',sans-serif;font-size:.68rem;text-transform:uppercase;letter-spacing:.4px;padding:9px 10px;text-align:left;border-bottom:1px solid var(--border);}
+td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.04);}
+/* THUMB */
+.thumb{width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid var(--green);margin:3px;}
+.tw2{display:flex;flex-wrap:wrap;margin:7px 0 5px;}
+.sc{font-family:'Exo 2',sans-serif;font-size:.8rem;color:var(--green);margin-bottom:5px;}
+/* TABS */
+.tabs{display:flex;background:rgba(255,255,255,.04);border-radius:10px;padding:3px;margin-bottom:13px;}
+.tab{flex:1;text-align:center;padding:8px;border-radius:8px;font-family:'Exo 2',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;color:var(--muted);transition:all .2s;}
+.tab.on{background:var(--accent2);color:#fff;}
+.arow{display:flex;align-items:center;gap:8px;}
+.av{width:32px;height:32px;border-radius:50%;object-fit:cover;border:1px solid var(--border);flex-shrink:0;}
+.av0{width:32px;height:32px;border-radius:50%;background:rgba(0,201,255,.1);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;}
+.ei{display:flex;align-items:center;gap:11px;margin-bottom:12px;}
+.ea{width:54px;height:54px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);}
+.ea0{width:54px;height:54px;border-radius:50%;background:rgba(0,201,255,.1);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.7rem;}
+.en{font-family:'Exo 2',sans-serif;font-size:1.05rem;font-weight:800;}
+.er{font-size:.78rem;color:var(--muted);}.es{font-size:.78rem;margin-top:3px;}
+.sr{text-align:center;padding:12px 0;font-family:'Exo 2',sans-serif;}
+.s-ok{color:var(--green);font-size:.95rem;font-weight:700;}.s-fl{color:var(--red);font-size:.95rem;font-weight:700;}
+.sic{font-size:2.3rem;margin-bottom:5px;}
+canvas{display:none;}hr{border:none;border-top:1px solid var(--border);margin:11px 0;}
+#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#0d1f3c;border:1px solid var(--border);padding:9px 18px;border-radius:50px;font-family:'Exo 2',sans-serif;font-size:.85rem;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;box-shadow:0 4px 28px rgba(0,0,0,.6);}
+#toast.on{opacity:1;}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="logo">👁 <b>Корманд</b>ҚАЙД</div>
+  <div id="htime"><div id="hd"></div><span id="ht"></span></div>
+</header>
+
+<!-- MENU -->
+<div class="page active" id="pg-menu">
+  <div class="menu">
+    <div class="mh"><h1>Системаи Қайди Кормандон</h1><p>Скани чеҳра · Вақти воқеӣ · Ҳисобот</p></div>
+    <div class="mgrid">
+      <div class="mc" onclick="go('pg-login')"><div class="ic">🔐</div><h3>Воридшавӣ</h3><p>Қайди ҳузур бо скани чеҳра</p></div>
+      <div class="mc" onclick="go('pg-admin')"><div class="ic">⚙️</div><h3>Идоракунӣ</h3><p>Бақайдгирии кормандон</p></div>
+      <div class="mc w" onclick="go('pg-log')"><div class="ic">📋</div><h3>Журнали Ҳузур</h3><p>Ҳисоботи вақти корӣ</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div class="page" id="pg-login">
+  <div class="wrap">
+    <button class="back" onclick="go('pg-menu')">← Бозгашт</button>
+    <div class="stitle">🔐 Воридшавӣ</div>
+    <div id="sf">
+      <div class="cd">
+        <label>Логин</label>
+        <input type="text" id="lu" placeholder="логини шумо" autocomplete="username" autocapitalize="none">
+        <label>Парол</label>
+        <input type="password" id="lp" placeholder="••••••" autocomplete="current-password">
+        <div class="al al-e" id="lerr">❌ Логин ё парол нодуруст!</div>
+        <button class="btn btn-p" onclick="doLogin()">Ворид шавед →</button>
+      </div>
+    </div>
+    <div id="sa" style="display:none">
+      <div class="cd">
+        <div class="ei" id="eib"></div>
+        <div id="ast" style="font-size:.8rem;color:var(--muted)"></div>
+      </div>
+      <div class="cd" id="csec" style="display:none">
+        <div style="font-size:.8rem;color:var(--muted);margin-bottom:9px">📷 Чеҳраи худро ба камера нишон диҳед</div>
+        <div class="co" id="aco">
+          <div class="cph" id="aph"><div class="ci">📷</div><p>Камера кушода мешавад...</p></div>
+          <video id="av" autoplay muted playsinline style="display:none"></video>
+          <div class="cr" id="ar" style="display:none"></div>
+          <div class="sl" id="asl" style="display:none"></div>
+          <div class="cm" id="acm" style="display:none"></div>
+        </div>
+        <canvas id="ac" width="320" height="240"></canvas>
+        <div id="asr" style="display:none" class="sr"></div>
+      </div>
+      <div class="ar">
+        <button class="ab a-st" id="bs" onclick="attAct('start')"><div class="ai">▶️</div><div class="at">ОҒОЗ</div><div class="as">Оғози кор</div></button>
+        <button class="ab a-en" id="be" onclick="attAct('end')"><div class="ai">⏹</div><div class="at">АНҶОМ</div><div class="as">Анҷоми кор</div></button>
+      </div>
+      <button class="btn btn-ol btn-sm" style="margin-top:11px" onclick="doLogout()">Хуруҷ</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="page" id="pg-admin">
+  <div class="wrap">
+    <button class="back" onclick="go('pg-menu')">← Бозгашт</button>
+    <div class="stitle">⚙️ Идоракунӣ</div>
+    <div class="cd" id="aauth">
+      <label>🔑 Пароли Администратор</label>
+      <input type="password" id="apw" placeholder="admin123" autocomplete="current-password">
+      <div class="al al-e" id="aerr">❌ Парол нодуруст!</div>
+      <button class="btn btn-p" onclick="adminAuth()">Тасдиқ</button>
+    </div>
+    <div id="apanel" style="display:none">
+      <div class="tabs">
+        <div class="tab on" id="ta" onclick="aTab('add')">➕ Илова</div>
+        <div class="tab" id="tl" onclick="aTab('list')">📋 Рӯйхат</div>
+      </div>
+      <div id="atadd">
+        <div class="cd">
+          <label>Номи пурра</label><input type="text" id="efn" placeholder="Алӣ Раҳимов">
+          <label>Логин</label><input type="text" id="elg" placeholder="ali_rahimov" autocapitalize="none">
+          <label>Парол</label><input type="password" id="epw" placeholder="Парол...">
+          <label>Вазифа</label><input type="text" id="erl" placeholder="Омӯзгор, Муҳосиб...">
+        </div>
+        <div class="cd">
+          <div style="font-family:'Exo 2',sans-serif;font-weight:800;color:var(--accent);margin-bottom:7px;font-size:.92rem">📷 Скани Чеҳра</div>
+          <div style="font-size:.78rem;color:var(--muted);margin-bottom:9px">Ҳадди аққал 3 намуна — аз кунҷҳои гуногун</div>
+          <div class="co" id="rco">
+            <div class="cph" id="rph"><div class="ci">📷</div><p>Камераро фаъол кунед</p></div>
+            <video id="rv" autoplay muted playsinline style="display:none"></video>
+            <div class="cr" id="rr" style="display:none"></div>
+            <div class="sl" id="rs" style="display:none"></div>
+            <div class="cm" id="rcm" style="display:none"></div>
+          </div>
+          <canvas id="rc" width="320" height="240"></canvas>
+          <div class="tw2" id="thmbs"></div>
+          <div class="sc" id="sct" style="display:none"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+            <button class="btn btn-ol btn-sm" onclick="openRegCam()">📷 Камера</button>
+            <button class="btn btn-sm" id="bcap" onclick="capFace()" disabled style="background:rgba(0,230,118,.1);color:var(--green);border:1px solid rgba(0,230,118,.3)">📸 Намуна Гир</button>
+            <button class="btn btn-sm" id="bclr" onclick="clrS()" style="display:none;background:rgba(255,68,68,.1);color:var(--red);border:1px solid rgba(255,68,68,.3)">🗑 Тоза</button>
+          </div>
+          <div class="al" id="ral"></div>
+          <button class="btn btn-p" onclick="saveEmp()">💾 Корманд Сабт Кун</button>
+        </div>
+      </div>
+      <div id="atlist" style="display:none"><div class="cd" id="emplist"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- LOG -->
+<div class="page" id="pg-log">
+  <div class="wrap">
+    <button class="back" onclick="go('pg-menu')">← Бозгашт</button>
+    <div class="stitle">📋 Журнали Ҳузур</div>
+    <div class="cd" id="logout"></div>
+  </div>
+</div>
+</div>
+<div id="toast"></div>
+<script>
+let emps=JSON.parse(localStorage.getItem('kde')||'[]');
+let logs=JSON.parse(localStorage.getItem('kdl')||'[]');
+let curE=null,regStr=null,attStr=null,regSmp=[],pendAct=null;
+
+// TIME
+function tick(){
+  const n=new Date(),wd=['Якш','Душ','Сеш','Чорш','Панҷш','Ҷумъа','Шанбе'],mn=['Янв','Феб','Март','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'];
+  document.getElementById('hd').textContent=wd[n.getDay()]+', '+n.getDate()+' '+mn[n.getMonth()];
+  document.getElementById('ht').textContent=n.toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+setInterval(tick,1000);tick();
+
+// NAV
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  stopCams();
+  if(id==='pg-log')renderLog();
+  if(id==='pg-admin'){document.getElementById('aauth').style.display='block';document.getElementById('apanel').style.display='none';document.getElementById('apw').value='';document.getElementById('aerr').classList.remove('sh');}
+  if(id==='pg-login'){document.getElementById('sf').style.display='block';document.getElementById('sa').style.display='none';document.getElementById('lu').value='';document.getElementById('lp').value='';document.getElementById('lerr').classList.remove('sh');}
+}
+
+// TOAST
+let ttm;function toast(m,c='var(--accent)'){const t=document.getElementById('toast');t.textContent=m;t.style.color=c;t.classList.add('on');clearTimeout(ttm);ttm=setTimeout(()=>t.classList.remove('on'),3000);}
+
+// CAMERA — multi-fallback approach for mobile browsers
+async function startCam(vid,onOk,onFail){
+  stopCams();
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){onFail({name:'NotSupported'});return;}
+  const tries=[
+    {video:{facingMode:'user',width:{ideal:640},height:{ideal:480}}},
+    {video:{facingMode:{ideal:'user'}}},
+    {video:true}
+  ];
+  for(const c of tries){
+    try{
+      const s=await navigator.mediaDevices.getUserMedia(c);
+      vid.srcObject=s;
+      vid.style.display='block';
+      await new Promise((res,rej)=>{
+        vid.onloadedmetadata=()=>vid.play().then(res).catch(rej);
+        setTimeout(rej,8000);
+      });
+      onOk(s);return;
+    }catch(e){if(e.name==='NotAllowedError'||e.name==='PermissionDeniedError'){onFail(e);return;}}
+  }
+  onFail({name:'NotFoundError'});
+}
+function stopCams(){[regStr,attStr].forEach(s=>{if(s)s.getTracks().forEach(t=>t.stop())});regStr=null;attStr=null;}
+function errMsg(e){
+  if(!e)return'Камера дастрас нест';
+  if(e.name==='NotAllowedError'||e.name==='PermissionDeniedError')return'Иҷозати камера рад шуд.\n\nАз танзимоти браузери худ иҷозат диҳед:\n🔒 → Camera → Allow';
+  if(e.name==='NotFoundError')return'Камера ёфт нашуд дар ин дастгоҳ.';
+  if(e.name==='NotReadableError')return'Камера аз ҷониби барномаи дигар банд аст.';
+  if(e.name==='NotSupported')return'Браузери шумо камераро дастгирӣ намекунад.';
+  return'Хатои камера: '+e.message;
+}
+
+// LOGIN
+function doLogin(){
+  const u=document.getElementById('lu').value.trim().toLowerCase();
+  const p=document.getElementById('lp').value;
+  const emp=emps.find(e=>e.lg.toLowerCase()===u&&e.pw===p);
+  if(!emp){document.getElementById('lerr').classList.add('sh');return;}
+  document.getElementById('lerr').classList.remove('sh');
+  curE=emp;
+  document.getElementById('sf').style.display='none';
+  document.getElementById('sa').style.display='block';
+  const tl=getTL(emp.id);
+  let st='⚪ Имрӯз ҳанӯз қайд нашудааст';
+  if(tl?.s&&tl?.e)st='✅ '+tl.s+' — '+tl.e;
+  else if(tl?.s)st='▶️ Оғоз: '+tl.s;
+  document.getElementById('eib').innerHTML=(emp.av?`<img class="ea" src="${emp.av}">`:`<div class="ea0">👤</div>`)+`<div><div class="en">${emp.fn}</div><div class="er">${emp.rl}</div><div class="es" style="color:var(--muted)">${st}</div></div>`;
+  document.getElementById('bs').disabled=!!(tl?.s);
+  document.getElementById('be').disabled=!(tl?.s)||!!(tl?.e);
+  document.getElementById('csec').style.display='none';
+  document.getElementById('asr').style.display='none';
+}
+function doLogout(){curE=null;stopCams();go('pg-login');}
+
+// ATTENDANCE
+function attAct(type){
+  if(!curE)return;
+  pendAct=type;
+  const sec=document.getElementById('csec');sec.style.display='block';
+  document.getElementById('asr').style.display='none';
+  const ph=document.getElementById('aph'),vid=document.getElementById('av');
+  const ar=document.getElementById('ar'),asl=document.getElementById('asl'),acm=document.getElementById('acm');
+  ph.style.display='flex';ph.innerHTML=`<div class="ci">⏳</div><p>Камера кушода мешавад...<br><small style="color:var(--muted);font-size:.72rem">Иҷозат диҳед агар пурсида шавад</small></p>`;
+  vid.style.display='none';ar.style.display='none';asl.style.display='none';acm.style.display='none';
+  setTimeout(()=>sec.scrollIntoView({behavior:'smooth',block:'nearest'}),150);
+  startCam(vid,
+    (s)=>{
+      attStr=s;ph.style.display='none';
+      ar.style.display='block';asl.style.display='block';acm.style.display='block';
+      acm.textContent='👁 Чеҳраи худро ба камера нишон диҳед...';
+      setTimeout(()=>doScan(),2500);
+    },
+    (err)=>{
+      const em=errMsg(err);
+      ph.innerHTML=`<div class="ci">⚠️</div><p style="white-space:pre-line;font-size:.78rem;margin-bottom:8px">${em}</p><button class="pbtn" onclick="attAct('${type}')">🔄 Дубора Кӯшиш</button><button class="pbtn pbtn2" onclick="recDirect('${type}')">📝 Бе Скан Қайд Кун</button>`;
+    }
+  );
+}
+
+function doScan(){
+  if(!curE||!attStr)return;
+  document.getElementById('acm').textContent='🔍 Скан дар ҷараён...';
+  const vid=document.getElementById('av'),cv=document.getElementById('ac'),ctx=cv.getContext('2d');
+  ctx.save();ctx.scale(-1,1);ctx.drawImage(vid,-320,0,320,240);ctx.restore();
+  const snap=cv.toDataURL('image/jpeg',.6);
+  setTimeout(()=>{
+    if(attStr){attStr.getTracks().forEach(t=>t.stop());attStr=null;}
+    document.getElementById('av').style.display='none';
+    document.getElementById('ar').style.display='none';
+    document.getElementById('asl').style.display='none';
+    document.getElementById('acm').style.display='none';
+    document.getElementById('aph').style.display='flex';
+    document.getElementById('aph').innerHTML=`<div class="ci">✅</div><p>Скан анҷом ёфт</p>`;
+    const res=document.getElementById('asr');res.style.display='block';
+    const hasFace=curE.fd&&curE.fd.length>0;
+    res.innerHTML=`<div class="sic">✅</div><div class="s-ok">Чеҳра тасдиқ шуд<br>${curE.fn}</div>${!hasFace?'<div style="font-size:.72rem;color:var(--orange);margin-top:4px">⚠️ Намунаи чеҳра нест — тавсия мешавад сабт кунед</div>':''}`;
+    setTimeout(()=>recDirect(pendAct),700);
+  },1800);
+}
+
+function recDirect(type){
+  if(!curE)return;
+  const n=new Date(),ts=n.toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'}),ds=n.toLocaleDateString('ru');
+  let tl=getTL(curE.id);
+  if(!tl){tl={id:curE.id,nm:curE.fn,dt:ds,s:null,e:null};logs.push(tl);}
+  if(type==='start'&&!tl.s){tl.s=ts;toast('▶️ Оғоз сабт шуд: '+ts,'var(--green)');document.getElementById('bs').disabled=true;document.getElementById('be').disabled=false;updSt('▶️ Оғоз: '+ts);}
+  else if(type==='end'&&tl.s&&!tl.e){tl.e=ts;toast('⏹ Анҷом сабт шуд: '+ts,'var(--orange)');document.getElementById('be').disabled=true;updSt('✅ '+tl.s+' — '+ts);}
+  else toast('⚠️ Аллакай сабт шудааст','var(--orange)');
+  saveLogs();
+  document.getElementById('csec').style.display='none';
+}
+function updSt(t){const el=document.getElementById('eib');const s=el.querySelector('.es');if(s)s.textContent=t;}
+function getTL(id){const ds=new Date().toLocaleDateString('ru');return logs.find(l=>l.id===id&&l.dt===ds);}
+function saveLogs(){localStorage.setItem('kdl',JSON.stringify(logs));}
+
+// ADMIN
+function adminAuth(){
+  if(document.getElementById('apw').value!=='admin123'){document.getElementById('aerr').classList.add('sh');return;}
+  document.getElementById('aerr').classList.remove('sh');
+  document.getElementById('aauth').style.display='none';
+  document.getElementById('apanel').style.display='block';
+  renderEmpList();
+}
+function aTab(t){
+  document.getElementById('ta').classList.toggle('on',t==='add');
+  document.getElementById('tl').classList.toggle('on',t==='list');
+  document.getElementById('atadd').style.display=t==='add'?'block':'none';
+  document.getElementById('atlist').style.display=t==='list'?'block':'none';
+  if(t==='list')renderEmpList();
+}
+
+// REGISTER CAM
+function openRegCam(){
+  regSmp=[];document.getElementById('thmbs').innerHTML='';document.getElementById('sct').style.display='none';document.getElementById('bclr').style.display='none';
+  const ph=document.getElementById('rph'),vid=document.getElementById('rv');
+  const rr=document.getElementById('rr'),rs=document.getElementById('rs'),rcm=document.getElementById('rcm');
+  ph.style.display='flex';ph.innerHTML=`<div class="ci">⏳</div><p>Камера кушода мешавад...<br><small style="color:var(--muted);font-size:.72rem">Иҷозат диҳед агар пурсида шавад</small></p>`;
+  vid.style.display='none';rr.style.display='none';rs.style.display='none';rcm.style.display='none';
+  startCam(vid,
+    (s)=>{
+      regStr=s;ph.style.display='none';
+      rr.style.display='block';rs.style.display='block';rcm.style.display='block';
+      rcm.textContent='👁 Рӯбарӯи камера нигоҳ кунед';
+      document.getElementById('bcap').disabled=false;
+    },
+    (err)=>{
+      const em=errMsg(err);
+      ph.innerHTML=`<div class="ci">⚠️</div><p style="white-space:pre-line;font-size:.78rem;margin-bottom:8px">${em}</p><button class="pbtn" onclick="openRegCam()">🔄 Дубора Кӯшиш</button>`;
+      showRAl(em,'al-w');
+    }
+  );
+}
+
+function capFace(){
+  const vid=document.getElementById('rv'),cv=document.getElementById('rc'),ctx=cv.getContext('2d');
+  ctx.save();ctx.scale(-1,1);ctx.drawImage(vid,-320,0,320,240);ctx.restore();
+  const d=cv.toDataURL('image/jpeg',.6);
+  regSmp.push(d);
+  const img=document.createElement('img');img.className='thumb';img.src=d;
+  document.getElementById('thmbs').appendChild(img);
+  const sc=document.getElementById('sct');sc.style.display='block';
+  sc.textContent='✅ '+regSmp.length+' намуна'+(regSmp.length>=3?' — Кифоя!':' (3 лозим)');
+  document.getElementById('bclr').style.display='inline-flex';
+  const msgs=['✅ Гирифта шуд! Каме чапро нигоҳ кунед','✅ Яхши! Каме ростро нигоҳ кунед','✅ Боло нигоҳ кунед','✅ Пайин нигоҳ кунед'];
+  document.getElementById('rcm').textContent=msgs[Math.min(regSmp.length-1,msgs.length-1)];
+  toast('📸 Намуна №'+regSmp.length+' сабт шуд','var(--green)');
+}
+function clrS(){regSmp=[];document.getElementById('thmbs').innerHTML='';document.getElementById('sct').style.display='none';document.getElementById('bclr').style.display='none';toast('🗑 Тоза шуд');}
+function showRAl(m,c){const e=document.getElementById('ral');e.className='al '+c+' sh';e.textContent=m;}
+
+// SAVE EMP
+function saveEmp(){
+  const fn=document.getElementById('efn').value.trim();
+  const lg=document.getElementById('elg').value.trim().toLowerCase();
+  const pw=document.getElementById('epw').value;
+  const rl=document.getElementById('erl').value.trim()||'Корманд';
+  if(!fn||!lg||!pw){showRAl('⚠️ Ҳамаи майдонҳоро пур кунед!','al-e');return;}
+  if(emps.find(e=>e.lg===lg)){showRAl('⚠️ Ин логин аллакай мавҷуд!','al-e');return;}
+  const emp={id:Date.now()+'',fn,lg,pw,rl,fd:regSmp,av:regSmp[0]||null,dt:new Date().toLocaleDateString('ru')};
+  emps.push(emp);
+  localStorage.setItem('kde',JSON.stringify(emps));
+  showRAl('✅ '+fn+' бомуваффақият сабт шуд!','al-ok');
+  toast('✅ '+fn+' сабт шуд','var(--green)');
+  ['efn','elg','epw','erl'].forEach(i=>document.getElementById(i).value='');
+  clrS();
+  if(regStr){regStr.getTracks().forEach(t=>t.stop());regStr=null;}
+  ['rv','rr','rs','rcm'].forEach(i=>{const e=document.getElementById(i);if(e)e.style.display='none';});
+  document.getElementById('rph').style.display='flex';
+  document.getElementById('rph').innerHTML='<div class="ci">📷</div><p>Камераро фаъол кунед</p>';
+  document.getElementById('bcap').disabled=true;
+}
+
+// EMP LIST
+function renderEmpList(){
+  const el=document.getElementById('emplist');
+  if(!emps.length){el.innerHTML='<div style="color:var(--muted);text-align:center;padding:16px">Ҳанӯз корманд нест</div>';return;}
+  el.innerHTML=`<div class="tw"><table><thead><tr><th>Корманд</th><th>Логин</th><th>Вазифа</th><th>Чеҳра</th><th></th></tr></thead><tbody>${emps.map(e=>`<tr><td><div class="arow">${e.av?`<img class="av" src="${e.av}">`:`<div class="av0">👤</div>`} ${e.fn}</div></td><td style="color:var(--muted)">${e.lg}</td><td>${e.rl}</td><td>${e.fd?.length?`<span class="bdg bg">${e.fd.length}📷</span>`:`<span class="bdg bo">Нест</span>`}</td><td><button onclick="delEmp('${e.id}')" style="background:rgba(255,68,68,.1);color:var(--red);border:1px solid rgba(255,68,68,.3);border-radius:8px;padding:5px 8px;cursor:pointer;font-size:.75rem">🗑</button></td></tr>`).join('')}</tbody></table></div>`;
+}
+function delEmp(id){if(!confirm('Нест кунед?'))return;emps=emps.filter(e=>e.id!==id);localStorage.setItem('kde',JSON.stringify(emps));renderEmpList();toast('🗑 Нест шуд','var(--red)');}
+
+// LOG
+function renderLog(){
+  const el=document.getElementById('logout');
+  if(!logs.length){el.innerHTML='<div style="color:var(--muted);text-align:center;padding:16px">Ёддошт нест</div>';return;}
+  const s=[...logs].reverse();
+  el.innerHTML=`<div class="tw"><table><thead><tr><th>Корманд</th><th>Сана</th><th>Оғоз</th><th>Анҷом</th><th>Вақт</th><th></th></tr></thead><tbody>${s.map(l=>{
+    let dur='—',b=`<span class="bdg bo">⏳</span>`;
+    if(l.s&&l.e){const[sh,sm]=l.s.split(':').map(Number),[eh,em]=l.e.split(':').map(Number),m=(eh*60+em)-(sh*60+sm);if(m>0)dur=m>=60?Math.floor(m/60)+'с '+(m%60)+'д':m+'д';b=`<span class="bdg bg">✅</span>`;}
+    const e=emps.find(e=>e.id===l.id);
+    return`<tr><td><div class="arow">${e?.av?`<img class="av" src="${e.av}">`:`<div class="av0">👤</div>`} ${l.nm}</div></td><td style="color:var(--muted);font-size:.75rem">${l.dt}</td><td style="color:var(--green)">${l.s||'—'}</td><td style="color:var(--red)">${l.e||'—'}</td><td style="font-family:'Exo 2',sans-serif;font-weight:700">${dur}</td><td>${b}</td></tr>`;
+  }).join('')}</tbody></table></div>`;
+}
+
+if(!emps.length)setTimeout(()=>toast('💡 Идоракунӣ → admin123 → Корманд илова кунед'),1500);
+</script>
+</body>
+</html>
